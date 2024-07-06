@@ -2,9 +2,21 @@
 
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
+@import './styles/buttons.scss';
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 body{
     background-color: #FAFAFA;
     color: #000000;
+    font-size: 1rem;
+}
+
+.form-control{
+    border: 1px solid #E7E9ED;
     font-size: 1rem;
 }

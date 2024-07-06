@@ -1,0 +1,27 @@
+.btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 1rem;
+
+    img{
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.btn-dark{
+    background: #000000;
+    border: 1px solid #000000;
+    border-radius: 50px;
+}
+
+.btn-default{
+    border: 1px solid #E7E9ED;
+    background-color: #FAFAFA;
+
+    &:hover{
+        background-color: #E7E9ED;
+    }
+}

@@ -8,38 +8,57 @@
       "files": [
         "*.ts"
       ],
+      "parserOptions": {
+        "project": ["./**/tsconfig.json"],
+        "createDefaultProgram": true
+      },
       "extends": [
+        "plugin:@angular-eslint/recommended",
         "eslint:recommended",
         "plugin:@typescript-eslint/recommended",
-        "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "plugin:prettier/recommended"
       ],
       "rules": {
+        "@typescript-eslint/no-namespace": "off",
+        "@angular-eslint/component-selector": [
+          "warn",
+          {
+            "type": "element",
+            "style": "kebab-case"
+          }
+        ],
         "@angular-eslint/directive-selector": [
-          "error",
+          "warn",
           {
             "type": "attribute",
             "prefix": "app",
             "style": "camelCase"
           }
         ],
-        "@angular-eslint/component-selector": [
+        "@typescript-eslint/unbound-method": [
           "error",
           {
-            "type": "element",
-            "prefix": "app",
-            "style": "kebab-case"
+            "ignoreStatic": true
+          }
+        ],
+        "@typescript-eslint/quotes": ["error", "double"],
+        "@typescript-eslint/no-explicit-any": "error",
+        "prettier/prettier": [
+          "warn",
+          {
+            "endOfLine": "auto",
+            "singleQuote": false
           }
         ]
       }
     },
     {
-      "files": [
-        "*.html"
-      ],
+      "files": ["*.html"],
       "extends": [
         "plugin:@angular-eslint/template/recommended",
-        "plugin:@angular-eslint/template/accessibility"
+        "plugin:prettier/recommended"
       ],
       "rules": {}
     }
