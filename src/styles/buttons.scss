@@ -14,7 +14,10 @@
 .btn-dark{
     background: #000000;
     border: 1px solid #000000;
-    border-radius: 50px;
+    
+    &.radius{
+        border-radius: 50px;
+    }
 }
 
 .btn-default{

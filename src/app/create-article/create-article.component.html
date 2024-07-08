@@ -1,0 +1,228 @@
+<div class="article-header">
+  <div class="d-flex w-100 align-items-center justify-content-between gap-3">
+    <div class="breadcrumb-wrapper">
+      <span>Articles</span>
+      <img src="images/icons/chevron-down.png" />
+      <span>Skincare</span>
+      <img src="images/icons/chevron-down.png" />
+      <span
+        >These 13 Low-Maintenance TikTok-Viral Lip Stains Are Practically
+        Magic</span
+      >
+    </div>
+
+    <select class="form-select">
+      <option selected>Select language</option>
+      <option value="1">English</option>
+    </select>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary">Generate</button>
+    <button class="btn btn-dark">Save Article</button>
+  </div>
+</div>
+
+<div class="article-wrapper">
+  <div class="article-content">
+    <div class="tabs">
+      <button class="active">General</button>
+      <button>Products</button>
+      <button>Social</button>
+      <button>SEO</button>
+    </div>
+
+    <div ngbAccordion class="mt-4">
+      <div ngbAccordionItem [collapsed]="false">
+        <h2 ngbAccordionHeader>
+          <button ngbAccordionButton>
+            <img src="images/icons/title.png" />
+            <span>Article Title</span>
+          </button>
+        </h2>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              <div class="fields-wrapper">
+                <div class="field">
+                  <textarea
+                    row="1"
+                    class="form-control fixed-height"
+                    placeholder="Enter article title"
+                  ></textarea>
+                  <img src="images/icons/refresh.png" />
+                  <img src="images/icons/copy.png" />
+                </div>
+
+                <div class="field">
+                  <textarea
+                    row="1"
+                    class="form-control fixed-height"
+                    placeholder="Enter article title"
+                  ></textarea>
+                  <img src="images/icons/refresh.png" />
+                  <img src="images/icons/copy.png" />
+                </div>
+
+                <div class="field">
+                  <textarea
+                    row="1"
+                    class="form-control fixed-height"
+                    placeholder="Enter article title"
+                  ></textarea>
+                  <img src="images/icons/refresh.png" />
+                  <img src="images/icons/copy.png" />
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ngbAccordion class="mt-4">
+      <div ngbAccordionItem [collapsed]="false">
+        <h2 ngbAccordionHeader>
+          <button ngbAccordionButton>
+            <img src="images/icons/description.png" />
+            <span>Article Description</span>
+          </button>
+        </h2>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              <div class="fields-wrapper">
+                <div class="field">
+                  <textarea
+                    row="5"
+                    class="form-control"
+                    placeholder="Enter article title"
+                  ></textarea>
+                  <img src="images/icons/refresh.png" />
+                  <img src="images/icons/copy.png" />
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div ngbAccordion class="mt-4">
+      <div ngbAccordionItem [collapsed]="false">
+        <h2 ngbAccordionHeader>
+          <button ngbAccordionButton>
+            <img src="images/icons/alt.png" />
+            <span>Alt Text</span>
+          </button>
+        </h2>
+        <div ngbAccordionCollapse>
+          <div ngbAccordionBody>
+            <ng-template>
+              <div class="fields-wrapper">
+                <div class="field">
+                  <textarea
+                    row="1"
+                    class="form-control fixed-height"
+                    placeholder="Enter article title"
+                  ></textarea>
+                  <img src="images/icons/refresh.png" />
+                  <img src="images/icons/copy.png" />
+                </div>
+              </div>
+            </ng-template>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="article-metadata">
+    <div class="tabs">
+      <button class="active">General</button>
+      <button>SEO</button>
+    </div>
+
+    <div class="info-wrapper">
+      <div class="item">
+        <span class="title">Status</span>
+        <span class="value">
+          <select class="form-select">
+            <option value="1">In progress</option>
+          </select>
+        </span>
+      </div>
+      <div class="item">
+        <span class="title">Category</span>
+        <span class="value">
+          <select class="form-select">
+            <option value="1">CBD</option>
+          </select>
+        </span>
+      </div>
+      <div class="item">
+        <span class="title">Created Date</span>
+        <span class="value">27 Aug, 2024</span>
+      </div>
+      <div class="item">
+        <span class="title">Publishing Date</span>
+        <span class="value">28 Aug, 2024</span>
+      </div>
+      <div class="item">
+        <span class="title">Author</span>
+        <span class="value">Tyshchenko</span>
+      </div>
+      <div class="item">
+        <span class="title">Link to website</span>
+        <a class="value link">
+          <span>Link</span>
+          <img src="images/icons/link.png" />
+        </a>
+      </div>
+    </div>
+
+    <div class="article-title">
+      <label>Article Title</label>
+      <textarea
+        row="1"
+        class="form-control fixed-height"
+        placeholder="Write article title..."
+      ></textarea>
+    </div>
+
+    <div class="product-wrapper">
+      <div class="product-header">
+        <span>Product sections</span>
+        <button>
+          <img src="images/icons/plus.png" />
+          <span>Add Product Section</span>
+        </button>
+      </div>
+
+      <div
+        cdkDropList
+        [cdkDropListData]="[1, 2, 3, 4, 5]"
+        class="example-list"
+        (cdkDropListDropped)="drop($event)"
+      >
+        @for (item of items; track $index) {
+          <div class="product" cdkDrag>
+            <div class="article-title">
+              <label>{{ item }}</label>
+              <textarea
+                row="1"
+                class="form-control fixed-height"
+                placeholder="Enter article title"
+              ></textarea>
+
+              <div class="actions">
+                <img src="images/icons/more-vertical.png" />
+                <img src="images/icons/settings-grey.png" />
+                <img src="images/icons/trash.png" />
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>
