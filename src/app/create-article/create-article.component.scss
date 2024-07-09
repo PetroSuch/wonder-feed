@@ -68,6 +68,7 @@
 
             .accordion-button{
                 font-size: 18px;
+                padding-block: 0;
                 box-shadow: none;
                 background-color: transparent;
 
@@ -75,6 +76,10 @@
                     margin-right: 10px;
                     width: 22px;
                 }
+            }
+
+            .accordion-header{
+                margin-bottom: 0;
             }
 
             .accordion-body{

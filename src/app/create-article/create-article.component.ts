@@ -11,7 +11,6 @@ import {
   CdkDropListGroup,
   moveItemInArray,
 } from "@angular/cdk/drag-drop";
-import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-create-article",
