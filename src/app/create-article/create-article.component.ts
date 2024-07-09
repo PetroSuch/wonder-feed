@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 import {
   NgbAccordionModule,
   NgbDropdownModule,
@@ -27,6 +28,14 @@ import {
 })
 export class CreateArticleComponent {
   public items = ["Product Title 1", "Product Title 2", "Product Title 3"];
+
+  constructor(private http: HttpClient) {
+    this.http
+      .get("http://2.58.65.29:4200/getArticlesLocal?offset=0")
+      .subscribe((data) => {
+        console.log(data);
+      });
+  }
 
   drop(event: CdkDragDrop<number[]>) {
     moveItemInArray(this.items, event.previousIndex, event.currentIndex);
