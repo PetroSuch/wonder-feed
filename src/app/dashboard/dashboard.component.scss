@@ -41,8 +41,9 @@ header{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 15px;
-    padding-bottom: 10px;
+    padding: 10px 15px;
+    padding-bottom: 5px;
+    padding-left: 5px;
 
     .actions{
         display: flex;
@@ -87,30 +88,21 @@ header{
 
     table{
         margin-bottom: 10px;
-        border-spacing:0 8px;
-        border-collapse:separate;
 
-        th, td{
+        th{
             background-color: #FAFAFA;
             vertical-align: middle;
-
-            &:first-child{
-                border-top-left-radius: 8px;
-                border-bottom-left-radius: 8px;
-            }
-    
-            &:last-child{
-                border-top-right-radius: 8px;
-                border-bottom-right-radius: 8px;
-            }
         }
     }
 
     thead{
         th{
             font-size: 12px;
-            background-color: #E7E9ED;
-            color: #00000099;
+            text-transform: uppercase;
+            background-color: transparent;
+            color: #9D9D9F;
+            font-weight: 500;
+            border-top: 1px solid #E7E9ED;
         }
     }
 
@@ -118,18 +110,9 @@ header{
         td{
             font-size: 16px;
             margin-bottom: 10px;
+            vertical-align: middle;
             border-top: 1px solid #E7E9ED;
             border-bottom: 1px solid #E7E9ED;
-
-            &:first-child{
-                border-left: 1px solid #E7E9ED;
-                border-radius: 8px 0 0 8px;
-            }
-
-            &:last-child{
-                border-right: 1px solid #E7E9ED;
-                border-radius: 0 8px 8px 0px;
-            }
         }
 
         .article-title{
@@ -141,13 +124,12 @@ header{
                 img{
                     width: 22px;
                     height: 22px;
-                    margin-top: 5px;
                 }
 
                 span{
                     width: 340px;
                     display: -webkit-box;
-                    -webkit-line-clamp: 2;
+                    -webkit-line-clamp: 1;
                     -webkit-box-orient: vertical;
                     overflow: hidden;
                 }
@@ -155,7 +137,6 @@ header{
         }
 
         .article-author,
-        .article-category,
         .article-publish-date,
         .article-creation-date{
             div{

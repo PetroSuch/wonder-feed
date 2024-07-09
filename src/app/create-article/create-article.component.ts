@@ -9,8 +9,8 @@ import {
   CdkDropList,
   CdkDropListGroup,
   moveItemInArray,
-  transferArrayItem,
 } from "@angular/cdk/drag-drop";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "app-create-article",
@@ -27,6 +27,14 @@ import {
 })
 export class CreateArticleComponent {
   public items = ["Product Title 1", "Product Title 2", "Product Title 3"];
+
+  constructor(private http: HttpClient) {
+    this.http
+      .get("http://2.58.65.29:3000/getArticlesLocal?offset=0")
+      .subscribe((data) => {
+        console.log(data);
+      });
+  }
 
   drop(event: CdkDragDrop<number[]>) {
     moveItemInArray(this.items, event.previousIndex, event.currentIndex);
