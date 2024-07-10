@@ -32,3 +32,34 @@ select, input, textarea{
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.breadcrumb-wrapper{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    span{
+        cursor: pointer;
+        font-size: 14px;
+        color: #575859;
+        transition: all 0.3s ease-in-out;
+        overflow: hidden;
+        text-overflow: ellipsis;
+
+        &.active{
+            color: #000000;
+        }
+
+        &:hover{
+            opacity: 0.7;
+        }
+    }
+
+    img{
+        width: 16px;
+        height: 16px;
+        object-fit: cover;
+        margin-top: 3px;
+        transform: rotate(-90deg);
+    }
+}

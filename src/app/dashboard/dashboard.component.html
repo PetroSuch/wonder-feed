@@ -1,25 +1,15 @@
-<header>
-  <img class="logo" src="images/logo.png" alt="" />
-
-  <div class="actions">
-    <img src="images/icons/setting.png" />
-    <span></span>
-    <img src="images/icons/user.png" />
-  </div>
-</header>
-
 <section class="filter-wrapper">
-  <h3>Articles</h3>
+  <div class="breadcrumb-wrapper">
+    <span>Articles</span>
+    <img src="images/icons/chevron-down.png" />
+    <span>Skincare</span>
+  </div>
+
   <div class="actions">
-    <button type="button" class="btn btn-default">
-      <img src="images/icons/sliders.png" />
-      <span>Filters</span>
-    </button>
     <div class="search-control">
       <img src="images/icons/search.png" />
       <input class="form-control" placeholder="Search article" />
     </div>
-    <button class="btn btn-primary btn-dark">Create Article</button>
   </div>
 </section>
 
@@ -28,10 +18,9 @@
     <thead>
       <tr>
         <th scope="col">Article Title</th>
-        <th scope="col">Category</th>
         <th scope="col">Status</th>
         <th scope="col">Publication date</th>
-        <th scope="col">Created date</th>
+        <th scope="col">Last edited</th>
         <th scope="col">Author</th>
         <th scope="col"></th>
       </tr>
@@ -46,13 +35,6 @@
                 These 13 Low-Maintenance TikTok-Viral Lip Stains Are Practically
                 Magic
               </span>
-            </div>
-          </td>
-          <td class="article-category">
-            <div>
-              <img src="images/icons/category.png" />
-              <span>Beauty/ Makeup</span>
-              <img class="chevron" src="images/icons/chevron-down.png" />
             </div>
           </td>
           <td class="article-status">
@@ -72,10 +54,7 @@
             </div>
           </td>
           <td class="article-publish-date">
-            <div>
-              <span> June 20, 2024 </span>
-              <img class="chevron" src="images/icons/chevron-down.png" />
-            </div>
+            <span> June 20, 2024 </span>
           </td>
           <td class="article-creation-date">
             <div>
@@ -83,10 +62,7 @@
             </div>
           </td>
           <td class="article-author">
-            <div>
-              <span> Anna Maselko </span>
-              <img class="chevron" src="images/icons/chevron-down.png" />
-            </div>
+            <span> Anna Maselko </span>
           </td>
           <td class="article-actions">
             <div ngbDropdown class="d-inline-block">

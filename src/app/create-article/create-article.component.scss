@@ -17,37 +17,6 @@
         }
     }
 
-    .breadcrumb-wrapper{
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 10px 15px;
-        span{
-            cursor: pointer;
-            font-size: 14px;
-            color: #575859;
-            transition: all 0.3s ease-in-out;
-            overflow: hidden;
-            text-overflow: ellipsis;
-
-            &.active{
-                color: #000000;
-            }
-
-            &:hover{
-                opacity: 0.7;
-            }
-        }
-
-        img{
-            width: 16px;
-            height: 16px;
-            object-fit: cover;
-            margin-top: 3px;
-            transform: rotate(-90deg);
-        }
-    }
-
     .actions{
         display: flex;
         align-items: center;
@@ -57,6 +26,10 @@
         padding: 10px 15px;
         width: 400px;
         border-left: 1px solid #DCDCDC;
+
+        button{
+            font-size: 14px;
+        }
     }
 }
 
@@ -99,6 +72,7 @@
 
             .accordion-button{
                 font-size: 18px;
+                padding-block: 0;
                 box-shadow: none;
                 background-color: transparent;
 
@@ -106,6 +80,10 @@
                     margin-right: 10px;
                     width: 22px;
                 }
+            }
+
+            .accordion-header{
+                margin-bottom: 0;
             }
 
             .accordion-body{
@@ -262,7 +240,7 @@
         label{
             font-size: 14px;
             color: #000000;
-            font-weight: 600;
+            font-weight: 500;
         }
 
         textarea{
