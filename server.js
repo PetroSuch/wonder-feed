@@ -3,8 +3,6 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const mysql = require("mysql");
 
-const { generateArticle } = require("./getArticles");
-
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -269,10 +267,6 @@ app.get("/getArticle", (req, res) => {
       }
     }
   });
-});
-
-app.listen(PORT, () => {
-  console.log(`app running in ${PORT}`);
 });
 
 app.post("/saveSettings", async (req, res) => {
