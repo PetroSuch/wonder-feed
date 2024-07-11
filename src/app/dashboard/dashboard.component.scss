@@ -56,35 +56,27 @@ header{
         position: relative;
 
         img{
-            width: 20px;
-            height: 20px;
+            width: 17px;
+            height: 17px;
             position: absolute;
             left: 10px;
-            top: 8px;
+            top: 10px;
         }
 
         input{
             width: 300px;
             padding-left: 40px;
+            background-color: #F1F1F1;
+
+            &::placeholder{
+                color: #9D9D9F;
+            }
         }
     }
 }
 
 .articles-wrapper{
     padding-inline: 15px;
-
-    .show-more{
-        display: flex;
-        justify-content: center;
-        border: none;
-        background-color: transparent;
-        cursor: pointer;
-        transition: opacity 0.3s;
-
-        &:hover{
-            opacity: 0.6;
-        }
-    }
 
     table{
         margin-bottom: 10px;
@@ -97,7 +89,7 @@ header{
 
     thead{
         th{
-            font-size: 12px;
+            font-size: 10px;
             text-transform: uppercase;
             background-color: transparent;
             color: #9D9D9F;
