@@ -1,0 +1,28 @@
+.mat-mdc-snack-bar-container{
+	.mdc-snackbar__label{
+		font-size: 1rem !important;
+		text-align: center;
+	}
+
+	.mdc-snackbar__label{
+		white-space: pre-wrap;
+	}
+
+	&.snackbar-success{
+		.mdc-snackbar__surface{
+			background-color: #4caf50;
+		}		
+	}
+
+	&.snackbar-error{
+		.mdc-snackbar__surface{
+			background-color: #f44336;
+		}
+	}
+
+	&.snackbar-info{
+		.mdc-snackbar__surface{
+			background-color: #2196f3;
+		}
+	}
+}

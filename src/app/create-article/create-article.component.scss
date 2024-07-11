@@ -126,6 +126,12 @@
                             }
                         }
 
+                        &:has(img.spin){
+                            img{
+                                opacity: 1;
+                            }
+                        }
+
                         img{
                             cursor: pointer;
                             opacity: 0;
@@ -134,7 +140,7 @@
                             right: 40px;
                             top: 16px;
                             transition: all 0.3s ease-in-out;
-
+                            
                             &:last-child{
                                 right: 10px;
                             }
@@ -161,6 +167,19 @@
 
         .tabs{
             margin-inline: 15px;
+        }
+
+        &.show-errors{
+            info-wrapper,
+            .article-title{
+                &:has(.ng-invalid){
+                    label,
+                    textarea::placeholder{
+                        color: #FF0000;
+                    }
+                    
+                }
+            }
         }
 
         .info-wrapper,

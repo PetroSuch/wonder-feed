@@ -21,14 +21,22 @@
       <option value="1">Template 1</option>
     </select>
     <div class="d-flex gap-2">
-      <button class="btn btn-primary">Generate</button>
+      <button
+        [ngClass]="{ loading: isGenerating }"
+        [disabled]="isGenerating"
+        class="btn btn-primary"
+        (click)="onGenerateData()"
+      >
+        <span>Generate</span>
+        <app-loading />
+      </button>
       <button class="btn btn-dark">Save Article</button>
     </div>
   </div>
 </div>
 
 <div class="article-wrapper">
-  <div class="article-content">
+  <div class="article-content" *ngIf="formResult" [formGroup]="formResult!">
     <div class="tabs">
       <button class="active">General</button>
       <button>Products</button>
@@ -51,31 +59,61 @@
                 <div class="field">
                   <textarea
                     row="1"
+                    [formControlName]="'article_title1'"
                     class="form-control fixed-height"
                     placeholder="Enter article title"
                   ></textarea>
-                  <img src="images/icons/refresh.png" />
-                  <img src="images/icons/copy.png" />
+                  <img
+                    [ngClass]="{
+                      spin: regeneratingTitleKey === 'article_title1',
+                    }"
+                    (click)="onRegenerateTitle('article_title1')"
+                    src="images/icons/refresh.png"
+                  />
+                  <img
+                    (click)="onCopyToClipboard('article_title1')"
+                    src="images/icons/copy.png"
+                  />
                 </div>
 
                 <div class="field">
                   <textarea
                     row="1"
+                    [formControlName]="'article_title2'"
                     class="form-control fixed-height"
                     placeholder="Enter article title"
                   ></textarea>
-                  <img src="images/icons/refresh.png" />
-                  <img src="images/icons/copy.png" />
+                  <img
+                    [ngClass]="{
+                      spin: regeneratingTitleKey === 'article_title2',
+                    }"
+                    (click)="onRegenerateTitle('article_title2')"
+                    src="images/icons/refresh.png"
+                  />
+                  <img
+                    (click)="onCopyToClipboard('article_title2')"
+                    src="images/icons/copy.png"
+                  />
                 </div>
 
                 <div class="field">
                   <textarea
                     row="1"
+                    [formControlName]="'article_title3'"
                     class="form-control fixed-height"
                     placeholder="Enter article title"
                   ></textarea>
-                  <img src="images/icons/refresh.png" />
-                  <img src="images/icons/copy.png" />
+                  <img
+                    [ngClass]="{
+                      spin: regeneratingTitleKey === 'article_title3',
+                    }"
+                    (click)="onRegenerateTitle('article_title3')"
+                    src="images/icons/refresh.png"
+                  />
+                  <img
+                    (click)="onCopyToClipboard('article_title3')"
+                    src="images/icons/copy.png"
+                  />
                 </div>
               </div>
             </ng-template>
@@ -99,6 +137,7 @@
                 <div class="field">
                   <textarea
                     row="5"
+                    [formControlName]="'article_description'"
                     class="form-control"
                     placeholder="Enter article title"
                   ></textarea>
@@ -127,6 +166,7 @@
                 <div class="field">
                   <textarea
                     row="1"
+                    [formControlName]="'alt_text'"
                     class="form-control fixed-height"
                     placeholder="Enter article title"
                   ></textarea>
@@ -140,7 +180,13 @@
       </div>
     </div>
   </div>
-  <div class="article-metadata">
+
+  <div
+    class="article-metadata"
+    [ngClass]="{ 'show-errors': showErrors }"
+    *ngIf="!!form"
+    [formGroup]="form!"
+  >
     <div class="tabs">
       <button class="active">General</button>
       <button>SEO</button>
@@ -188,6 +234,7 @@
       <label>Article Title</label>
       <textarea
         row="1"
+        [formControlName]="'article_title1'"
         class="form-control fixed-height"
         placeholder="Write article title..."
       ></textarea>
@@ -214,6 +261,7 @@
               <label>{{ item }}</label>
               <textarea
                 row="1"
+                [formControlName]="'product_title' + (+$index + 1)"
                 class="form-control fixed-height"
                 placeholder="Enter article title"
               ></textarea>

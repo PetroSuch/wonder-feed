@@ -3,6 +3,7 @@
 /* Importing Bootstrap SCSS file. */
 @import 'bootstrap/scss/bootstrap';
 @import './styles/buttons.scss';
+@import './styles/alerts.scss';
 @import './styles/fonts.scss';
 
 *{
@@ -67,4 +68,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
         margin-top: 1px;
         transform: rotate(-90deg);
     }
+}
+
+.spin {
+    animation: spin 1.5s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
