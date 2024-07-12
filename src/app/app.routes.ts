@@ -4,22 +4,25 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { CreateArticleComponent } from "./create-article/create-article.component";
 import { ArticleDashboardComponent } from "./article-dashboard/article-dashboard.component";
 import { CreateTemplateComponent } from "./create-template/create-template.component";
+import { RoutesNames } from "./shared/enums/routes.enum";
+import { AuthGuard } from "./shared/guards/auth.guard";
 
 export const routes: Routes = [
   {
-    path: "login",
+    path: RoutesNames.Login,
     component: LoginComponent,
   },
   {
-    path: "articles",
+    path: RoutesNames.Articles,
     component: ArticleDashboardComponent,
+    canActivate: [AuthGuard],
     children: [
       {
-        path: "create",
+        path: RoutesNames.Create,
         component: CreateArticleComponent,
       },
       {
-        path: "template",
+        path: RoutesNames.Template,
         component: CreateTemplateComponent,
       },
       {

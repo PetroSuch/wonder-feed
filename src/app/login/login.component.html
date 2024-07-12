@@ -1,8 +1,13 @@
-<div class="login-wrapper">
+<div
+  [formGroup]="form"
+  class="login-wrapper"
+  [ngClass]="{ 'show-errors': showErrors }"
+>
   <h2 class="col-lg-12">Log In</h2>
   <div class="col-lg-12">
     <label for="email" class="form-label">Email</label>
     <input
+      [formControlName]="'username'"
       class="form-control"
       id="email"
       type="text"
@@ -13,6 +18,7 @@
   <div class="col-lg-12">
     <label for="password" class="form-label">Password</label>
     <input
+      [formControlName]="'password'"
       class="form-control"
       id="password"
       type="password"
@@ -21,6 +27,13 @@
   </div>
 
   <div class="actions">
-    <button class="btn btn-primary btn-dark radius">Login</button>
+    <button
+      [ngClass]="{ loading: loading }"
+      (click)="login()"
+      class="btn btn-primary btn-dark radius"
+    >
+      <span>Login</span>
+      <app-loading class="light" />
+    </button>
   </div>
 </div>

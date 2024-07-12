@@ -21,6 +21,19 @@
         border-radius: 10px;
         background-color: #FFFFFF;
         
+        &.show-errors{
+            &:has(.ng-invalid){
+                .form-control{
+                    color: #FF0000 !important;
+                    border-color: #FF0000;
+
+                    &::placeholder{
+                        color: #FF0000;
+                    }
+                }
+            }
+        }
+        
         label{
             font-size: 1rem;
         }
