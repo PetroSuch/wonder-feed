@@ -9,6 +9,11 @@ import { AuthGuard } from "./shared/guards/auth.guard";
 
 export const routes: Routes = [
   {
+    path: "",
+    pathMatch: "full",
+    redirectTo: RoutesNames.Login,
+  },
+  {
     path: RoutesNames.Login,
     component: LoginComponent,
   },

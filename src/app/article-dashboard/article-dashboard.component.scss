@@ -100,6 +100,7 @@
             margin-top: 15px;
 
             li{
+                position: relative;
                 width: calc(100% - 20px);
                 list-style: none;
                 padding: 3px 0;
@@ -111,6 +112,31 @@
                 padding-inline: 7px;
                 font-size: 14px;
                 transition: all 0.3s ease;
+
+                img.edit,
+                img.delete{
+                    opacity: 0;
+                    position: absolute;
+                    right: 8px;
+                    width: 16px;
+                    cursor: pointer;
+                    transition: var(--transition);
+                    
+                    &:hover{
+                        opacity: 0.8;
+                    }
+                }
+
+                img.delete{
+                    right: 28px;
+                }
+
+                &:hover{
+                    img.edit,
+                    img.delete{
+                        opacity: 1;
+                    }
+                }
 
                 &:hover,
                 &.active{

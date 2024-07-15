@@ -1,5 +1,10 @@
 import { FormControl } from "@angular/forms";
 
+export interface IUser {
+  id: number;
+  username: string;
+}
+
 export interface ILoginCredentials {
   username: string;
   password: string;
