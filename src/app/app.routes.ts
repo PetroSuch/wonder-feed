@@ -27,7 +27,15 @@ export const routes: Routes = [
         component: CreateArticleComponent,
       },
       {
+        path: RoutesNames.Create + "/:id",
+        component: CreateArticleComponent,
+      },
+      {
         path: RoutesNames.Template,
+        component: CreateTemplateComponent,
+      },
+      {
+        path: RoutesNames.Template + "/:templateId",
         component: CreateTemplateComponent,
       },
       {

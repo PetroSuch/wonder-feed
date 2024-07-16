@@ -32,7 +32,6 @@ export class LoginComponent {
     private alertService: AlertService,
     private nonNullableBuilder: NonNullableFormBuilder,
   ) {
-    this.authService.getUser(1).subscribe();
     this.form = new FormGroup<ILoginForm>({
       username: this.nonNullableBuilder.control<string>(""),
       password: this.nonNullableBuilder.control<string>(""),

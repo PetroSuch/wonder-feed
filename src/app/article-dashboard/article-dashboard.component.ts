@@ -1,25 +1,39 @@
 import { Component } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { CategoryService } from "../shared/services/category.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { CategoryPopupComponent } from "../shared/components/category-popup/category-popup.component";
 import { ICategory } from "../shared/interfaces/category.interfaces";
 import { filter, first, tap } from "rxjs";
+import { TemplateService } from "../shared/services/template.service";
+import { ITemplate } from "../shared/interfaces/template.interface";
+import { RoutesNames } from "../shared/enums/routes.enum";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: "app-article-dashboard",
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: "./article-dashboard.component.html",
   styleUrl: "./article-dashboard.component.scss",
 })
 export class ArticleDashboardComponent {
+  public templates: ITemplate[] = [];
   public categories: ICategory[] = [];
 
+  public get activeTemplateId(): number {
+    return +this.route.snapshot.firstChild?.params["templateId"];
+  }
+
   constructor(
+    private router: Router,
+    private route: ActivatedRoute,
     private categoryService: CategoryService,
+    private templateService: TemplateService,
     private modalService: NgbModal,
   ) {
+    console.log(this.activeTemplateId);
+    this.fetchTemplates();
     this.fetchCategories();
   }
 
@@ -59,12 +73,51 @@ export class ArticleDashboardComponent {
       .subscribe();
   }
 
+  public updateTemplate(e: Event, template: ITemplate) {
+    e.stopPropagation();
+    void this.router.navigate([
+      "/",
+      RoutesNames.Articles,
+      RoutesNames.Template,
+      template.id,
+    ]);
+  }
+
+  public deleteTemplate(e: Event, template: ITemplate) {
+    const conf = confirm("Are you sure you want to delete this template?");
+    if (!conf) return;
+    e.stopPropagation();
+
+    this.templateService
+      .deleteTemplate(template.id)
+      .pipe(tap(() => this.fetchTemplates()))
+      .subscribe();
+  }
+
+  public createTemplate() {
+    void this.router.navigate([
+      "/",
+      RoutesNames.Articles,
+      RoutesNames.Template,
+    ]);
+  }
+
   private fetchCategories() {
     this.categoryService
       .getCategories()
       .pipe(
         first(),
         tap((data) => (this.categories = data)),
+      )
+      .subscribe();
+  }
+
+  private fetchTemplates() {
+    this.templateService
+      .getTemplates()
+      .pipe(
+        first(),
+        tap((data) => (this.templates = data)),
       )
       .subscribe();
   }
