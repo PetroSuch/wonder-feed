@@ -1,3 +1,21 @@
+.main-wrapper{
+    &.show-errors{
+        .article-metadata,
+        .article-header .actions{
+            &:has(.ng-invalid){
+                input.ng-invalid::placeholder,
+                textarea.ng-invalid::placeholder{
+                    color: #FF0000;
+                }
+
+                select.ng-invalid{
+                    box-shadow: 0 0 0 1px #FF0000 !important;
+                }
+            }
+        }
+    }
+}
+
 .article-header{
     display: flex;
     align-items: center;
@@ -167,19 +185,6 @@
 
         .tabs{
             margin-inline: 15px;
-        }
-
-        &.show-errors{
-            info-wrapper,
-            .article-title{
-                &:has(.ng-invalid){
-                    label,
-                    textarea::placeholder{
-                        color: #FF0000;
-                    }
-                    
-                }
-            }
         }
 
         .info-wrapper,

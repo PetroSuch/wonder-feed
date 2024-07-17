@@ -39,7 +39,7 @@ export const routes: Routes = [
         component: CreateTemplateComponent,
       },
       {
-        path: "",
+        path: ":categoryId",
         component: DashboardComponent,
       },
     ],

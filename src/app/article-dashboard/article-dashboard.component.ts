@@ -25,6 +25,10 @@ export class ArticleDashboardComponent {
     return +this.route.snapshot.firstChild?.params["templateId"];
   }
 
+  public get activeCategoryId(): number {
+    return +this.route.snapshot.firstChild?.params["categoryId"];
+  }
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -32,9 +36,12 @@ export class ArticleDashboardComponent {
     private templateService: TemplateService,
     private modalService: NgbModal,
   ) {
-    console.log(this.activeTemplateId);
     this.fetchTemplates();
     this.fetchCategories();
+  }
+
+  public openCategory(category: ICategory) {
+    void this.router.navigate(["/", RoutesNames.Articles, category.id]);
   }
 
   public createCategory() {

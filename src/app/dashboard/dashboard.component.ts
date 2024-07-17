@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component } from "@angular/core";
 import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
+import { IGenerateArticleResponse } from "../shared/interfaces/article.interfaces";
 
 @Component({
   selector: "app-dashboard",
@@ -9,4 +10,12 @@ import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
   templateUrl: "./dashboard.component.html",
   styleUrl: "./dashboard.component.scss",
 })
-export class DashboardComponent {}
+export class DashboardComponent {
+  public articles: IGenerateArticleResponse[];
+  constructor() {
+    this.articles = [];
+    this.fetchArticles();
+  }
+
+  public fetchArticles() {}
+}

@@ -24,7 +24,10 @@
 
     <ul>
       @for (item of categories; track $index) {
-        <li class="active">
+        <li
+          (click)="openCategory(item)"
+          [ngClass]="{ active: item.id === activeCategoryId }"
+        >
           <span>{{ item.name }}</span>
           <span class="counter">{{ item.count }}</span>
           <img
@@ -56,7 +59,7 @@
           [ngClass]="{ active: activeTemplateId === item.id }"
           (click)="updateTemplate($event, item)"
         >
-          <span>{{ item.title_main_topic }}</span>
+          <span>{{ item.template_name }}</span>
           <img
             class="edit"
             (click)="deleteTemplate($event, item)"

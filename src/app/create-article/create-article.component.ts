@@ -19,17 +19,20 @@ import {
 } from "@angular/forms";
 import {
   ICreateArticleForm,
+  ICreateArticle,
+  IGenerateArticleResponse,
   IGenerateResultForm,
-} from "../shared/interfaces/article-generate-form.interface";
+  IRegenerateTitle,
+} from "../shared/interfaces/article.interfaces";
 import { CommonModule } from "@angular/common";
 import { catchError, finalize, tap } from "rxjs";
-import {
-  IGenerateArticle,
-  IGenerateArticleResponse,
-  IRegenerateTitle,
-} from "../shared/interfaces/api.interfaces";
 import { AlertService } from "../shared/services/alert.service";
 import { LoadingComponent } from "../shared/components/loading/loading.component";
+import { TemplateService } from "../shared/services/template.service";
+import { ITemplate } from "../shared/interfaces/template.interface";
+import { CategoryService } from "../shared/services/category.service";
+import { ICategory } from "../shared/interfaces/category.interfaces";
+import { ArticleService } from "../shared/services/article.service";
 
 @Component({
   selector: "app-create-article",
@@ -49,6 +52,8 @@ import { LoadingComponent } from "../shared/components/loading/loading.component
 })
 export class CreateArticleComponent {
   public items = ["Product Title 1", "Product Title 2", "Product Title 3"];
+  public templates: ITemplate[] = [];
+  public categories: ICategory[] = [];
   public form: FormGroup<ICreateArticleForm> | undefined;
   public formResult: FormGroup<IGenerateResultForm> | undefined;
   public regeneratingTitleKey: string | undefined;
@@ -56,13 +61,27 @@ export class CreateArticleComponent {
   public showErrors: boolean;
 
   constructor(
-    private apiService: ApiService,
     private alertService: AlertService,
+    private articleService: ArticleService,
+    private templateService: TemplateService,
+    private categoryService: CategoryService,
   ) {
     this.isGenerating = false;
     this.showErrors = false;
     this.initForm();
     this.initValidation();
+    this.fetchTemplates();
+    this.fetchCategories();
+
+    const data2 = {
+      template_id: 3,
+      article_title1: "The Ultimate Guide to Productivity",
+      product_title1: "Time Management Techniques",
+      product_title2: "Productivity Tools",
+      product_title3: "Effective Planning Strategies",
+    } as any;
+
+    this.articleService.generateArticle(data2 as any).subscribe();
   }
 
   public onGenerateData() {
@@ -76,15 +95,18 @@ export class CreateArticleComponent {
     this.isGenerating = true;
 
     const value = this.form.value;
-    const data: IGenerateArticle = {
-      article_title1: value.article_title1!,
-      product_title1: value.product_title1!,
-      product_title2: value.product_title2!,
-      product_title3: value.product_title3!,
+    const data: ICreateArticle = {
+      category_id: +value.category_id!,
+      template_id: +value.template_id!,
+      article_title1: value.article!,
+      product_title1: value.title1!,
+      product_title2: value.title2!,
+      product_title3: value.title3!,
     };
+
     const errMsg = "Something went wrong. Please try again later.";
 
-    this.apiService
+    this.articleService
       .generateArticle(data)
       .pipe(
         tap((data) => this.patchGenerateForm(data)),
@@ -108,21 +130,21 @@ export class CreateArticleComponent {
 
     const value = this.form.value;
     const data: IRegenerateTitle = {
-      article_title1: value.article_title1!,
-      product_title1: value.product_title1!,
-      product_title2: value.product_title2!,
-      product_title3: value.product_title3!,
+      template_id: 1,
+      article_title1: value.article!,
+      product_title1: value.title1!,
+      product_title2: value.title2!,
+      product_title3: value.title3!,
       title_regenerate: currentTitle,
     };
     const errMsg = "Something went wrong. Please try again later.";
 
     this.regeneratingTitleKey = controlName;
 
-    this.apiService
+    this.articleService
       .regenerateTitle(data)
       .pipe(
         tap((data) => control?.patchValue(data.newtitle)),
-        tap(() => console.log(this.formResult?.value)),
         catchError(() => this.alertService.error(errMsg)),
         finalize(() => (this.regeneratingTitleKey = undefined)),
       )
@@ -153,10 +175,16 @@ export class CreateArticleComponent {
 
   private initForm() {
     this.form = new FormGroup<ICreateArticleForm>({
-      article_title1: new FormControl<null | string>(null),
-      product_title1: new FormControl<null | string>(null),
-      product_title2: new FormControl<null | string>(null),
-      product_title3: new FormControl<null | string>(null),
+      category_id: new FormControl<null | number>(null),
+      template_id: new FormControl<null | number>(null),
+      article: new FormControl<null | string>(null),
+      title1: new FormControl<null | string>(null),
+      title2: new FormControl<null | string>(null),
+      title3: new FormControl<null | string>(null),
+    });
+
+    this.form.valueChanges.subscribe((v) => {
+      console.log(v);
     });
 
     this.formResult = new FormGroup<IGenerateResultForm>({
@@ -168,12 +196,26 @@ export class CreateArticleComponent {
     });
   }
 
+  private fetchTemplates() {
+    this.templateService
+      .getTemplates()
+      .pipe(tap((data) => (this.templates = data)))
+      .subscribe();
+  }
+
+  private fetchCategories() {
+    this.categoryService
+      .getCategories()
+      .pipe(tap((data) => (this.categories = data)))
+      .subscribe();
+  }
+
   private initValidation() {
     if (!this.form) return;
-    const { article_title1, product_title1, product_title2, product_title3 } =
+    const { title1, title2, title3, article, template_id, category_id } =
       this.form.controls;
 
-    [article_title1, product_title1, product_title2, product_title3].forEach(
+    [title1, title2, title3, article, template_id, category_id].forEach(
       (control) => {
         control.setValidators([Validators.required]);
       },
