@@ -10,7 +10,7 @@
       </div>
     </div>
 
-    <button>
+    <button (click)="onCreateArticle()">
       <img src="images/icons/edit-square.png" />
     </button>
   </div>
@@ -23,7 +23,7 @@
     </div>
 
     <ul>
-      @for (item of categories; track $index) {
+      @for (item of dashboardService.categories; track $index) {
         <li
           (click)="openCategory(item)"
           [ngClass]="{ active: item.id === activeCategoryId }"
@@ -54,7 +54,7 @@
     </div>
 
     <ul>
-      @for (item of templates; track $index) {
+      @for (item of dashboardService.templates; track $index) {
         <li
           [ngClass]="{ active: activeTemplateId === item.id }"
           (click)="updateTemplate($event, item)"

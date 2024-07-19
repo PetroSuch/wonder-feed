@@ -19,6 +19,7 @@ import { catchError, filter, finalize, tap } from "rxjs";
 import { TemplateService } from "../shared/services/template.service";
 import { LoadingComponent } from "../shared/components/loading/loading.component";
 import { ActivatedRoute } from "@angular/router";
+import { DashboardService } from "../shared/services/dashboard.service";
 
 @Component({
   selector: "app-create-template",
@@ -39,6 +40,13 @@ export class CreateTemplateComponent {
   public showErrors: boolean = false;
   public activeTab: number = 1;
   private templateId: number | null = null;
+  private templateData: ITemplate | null = null;
+
+  public get navLabel() {
+    return this.templateId
+      ? this.templateData?.template_name
+      : "Create Template";
+  }
 
   public get isValidTitleTab() {
     const controls = this.form?.controls;
@@ -86,6 +94,7 @@ export class CreateTemplateComponent {
     private route: ActivatedRoute,
     private alertService: AlertService,
     private templateService: TemplateService,
+    private dashboardService: DashboardService,
   ) {
     this.initForm();
     this.initValidation();
@@ -96,6 +105,7 @@ export class CreateTemplateComponent {
         .getTemplate(this.templateId)
         .pipe(
           filter(() => !!this.form),
+          tap((data) => (this.templateData = data)),
           tap((data) => this.form!.patchValue({ ...data })),
         )
         .subscribe();
@@ -122,6 +132,7 @@ export class CreateTemplateComponent {
 
     api$
       .pipe(
+        tap(() => this.dashboardService.fetchTemplates()),
         tap(() => this.alertService.success("Template saved!")),
         catchError(() => this.alertService.error("Failed to save template!")),
         finalize(() => (this.isSaving = false)),

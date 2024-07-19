@@ -2,20 +2,36 @@ import { FormControl } from "@angular/forms";
 
 export interface IArticle {
   id: number;
+  article_title1: string;
+  article_title2: string;
+  article_title3: string;
+  alt_text: string;
+  article_description: string;
+  author: string;
   category_id: number;
+  publication_date: string;
+  last_edited: string;
+  status: string;
+}
+
+export interface ICreateArticle {
   article_title1: string;
   article_title2: string;
   article_title3: string;
   alt_text: string;
   article_description: string;
   status: string;
-  publication_date: string;
-  last_edited: string;
+  // metadata
+  article: string;
+  category_id: number;
+  template_id: number;
+  product_titles: string[];
 }
 
-export interface ICreateArticleForm {
+export interface IGenerateArticleForm {
   template_id: FormControl<null | number>;
   category_id: FormControl<null | number>;
+  status: FormControl<null | string>;
   article: FormControl<null | string>;
   title1: FormControl<null | string>;
   title2: FormControl<null | string>;
@@ -30,17 +46,13 @@ export interface IGenerateResultForm {
   article_description: FormControl<null | string>;
 }
 
-export interface ICreateArticle {
+export interface IGenerateArticle {
   template_id: number;
   category_id: number;
   article_title1: string;
   product_title1: string;
   product_title2: string;
   product_title3: string;
-}
-
-export interface IUpdateArticle extends ICreateArticle {
-  id: number;
 }
 
 export interface IGenerateArticleResponse {

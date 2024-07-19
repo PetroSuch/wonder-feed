@@ -9,6 +9,7 @@ import { TemplateService } from "../shared/services/template.service";
 import { ITemplate } from "../shared/interfaces/template.interface";
 import { RoutesNames } from "../shared/enums/routes.enum";
 import { CommonModule } from "@angular/common";
+import { DashboardService } from "../shared/services/dashboard.service";
 
 @Component({
   selector: "app-article-dashboard",
@@ -18,9 +19,6 @@ import { CommonModule } from "@angular/common";
   styleUrl: "./article-dashboard.component.scss",
 })
 export class ArticleDashboardComponent {
-  public templates: ITemplate[] = [];
-  public categories: ICategory[] = [];
-
   public get activeTemplateId(): number {
     return +this.route.snapshot.firstChild?.params["templateId"];
   }
@@ -34,14 +32,19 @@ export class ArticleDashboardComponent {
     private route: ActivatedRoute,
     private categoryService: CategoryService,
     private templateService: TemplateService,
+    public dashboardService: DashboardService,
     private modalService: NgbModal,
   ) {
-    this.fetchTemplates();
-    this.fetchCategories();
+    this.dashboardService.fetchTemplates();
+    this.dashboardService.fetchCategories();
   }
 
   public openCategory(category: ICategory) {
     void this.router.navigate(["/", RoutesNames.Articles, category.id]);
+  }
+
+  public onCreateArticle() {
+    void this.router.navigate(["/", RoutesNames.Articles, RoutesNames.Create]);
   }
 
   public createCategory() {
@@ -49,7 +52,7 @@ export class ArticleDashboardComponent {
     modalRef.closed
       .pipe(
         filter((refresh) => !!refresh),
-        tap(() => this.fetchCategories()),
+        tap(() => this.dashboardService.fetchCategories()),
       )
       .subscribe();
   }
@@ -64,7 +67,7 @@ export class ArticleDashboardComponent {
     modalRef.closed
       .pipe(
         filter((refresh) => !!refresh),
-        tap(() => this.fetchCategories()),
+        tap(() => this.dashboardService.fetchCategories()),
       )
       .subscribe();
   }
@@ -76,7 +79,7 @@ export class ArticleDashboardComponent {
 
     this.categoryService
       .deleteCategory(category.id)
-      .pipe(tap(() => this.fetchCategories()))
+      .pipe(tap(() => this.dashboardService.fetchCategories()))
       .subscribe();
   }
 
@@ -97,7 +100,7 @@ export class ArticleDashboardComponent {
 
     this.templateService
       .deleteTemplate(template.id)
-      .pipe(tap(() => this.fetchTemplates()))
+      .pipe(tap(() => this.dashboardService.fetchTemplates()))
       .subscribe();
   }
 
@@ -107,25 +110,5 @@ export class ArticleDashboardComponent {
       RoutesNames.Articles,
       RoutesNames.Template,
     ]);
-  }
-
-  private fetchCategories() {
-    this.categoryService
-      .getCategories()
-      .pipe(
-        first(),
-        tap((data) => (this.categories = data)),
-      )
-      .subscribe();
-  }
-
-  private fetchTemplates() {
-    this.templateService
-      .getTemplates()
-      .pipe(
-        first(),
-        tap((data) => (this.templates = data)),
-      )
-      .subscribe();
   }
 }

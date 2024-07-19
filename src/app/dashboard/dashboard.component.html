@@ -2,7 +2,7 @@
   <div class="breadcrumb-wrapper">
     <span>Articles</span>
     <img src="images/icons/chevron-down.png" />
-    <span>Skincare</span>
+    <span>{{ navLabel }}</span>
   </div>
 
   <div class="actions">
@@ -26,43 +26,46 @@
       </tr>
     </thead>
     <tbody>
-      @for (item of [1, 2, 3, 4, 5, 6, 7, 8, 9]; track $index) {
+      @for (item of articles; track $index) {
         <tr>
           <td class="article-title">
             <div>
               <img src="images/icons/article-title.png" />
               <span>
-                These 13 Low-Maintenance TikTok-Viral Lip Stains Are Practically
-                Magic
+                {{ item.article_title1 }}
               </span>
             </div>
           </td>
           <td class="article-status">
             <div
               [ngClass]="{
-                'in-progress': item === 1,
-                published: item === 2,
-                done: item >= 3,
+                'in-progress': item.status === '1',
+                published: item.status === '2',
+                done: item.status >= '3',
               }"
             >
               <span>
                 {{
-                  item === 1 ? "In Progress" : item === 2 ? "Published" : "Done"
+                  item.status === "1"
+                    ? "In Progress"
+                    : item.status === "2"
+                      ? "Published"
+                      : "Done"
                 }}
               </span>
               <img class="chevron" src="images/icons/chevron-down.png" />
             </div>
           </td>
           <td class="article-publish-date">
-            <span> June 20, 2024 </span>
+            <span>{{ item.publication_date | date: "MMMM dd, yyyy" }}</span>
           </td>
           <td class="article-creation-date">
             <div>
-              <span> June 20, 2024 </span>
+              <span>{{ item.last_edited | date: "MMMM dd, yyyy HH:mm" }}</span>
             </div>
           </td>
           <td class="article-author">
-            <span> Anna Maselko </span>
+            <span>{{ item.author }}</span>
           </td>
           <td class="article-actions">
             <div ngbDropdown class="d-inline-block">
@@ -78,7 +81,7 @@
                 class="article-dropdown-menu"
                 [attr.aria-labelledby]="'dropdownBasic_' + $index"
               >
-                <button ngbDropdownItem>
+                <button ngbDropdownItem (click)="onEditArticle(item)">
                   <img src="images/icons/edit.png" />
                   <span>Edit article</span>
                 </button>
@@ -92,7 +95,7 @@
 
                 <span class="border"></span>
 
-                <button ngbDropdownItem>
+                <button ngbDropdownItem (click)="onDeleteArticle(item)">
                   <img src="images/icons/trash.png" />
                   <span>Delete article</span>
                 </button>

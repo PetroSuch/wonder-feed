@@ -3,13 +3,10 @@
     <div class="d-flex w-100 align-items-center justify-content-between gap-3">
       <div class="breadcrumb-wrapper">
         <span>Articles</span>
+        <img *ngIf="navCategoryTitle" src="images/icons/chevron-down.png" />
+        <span>{{ navCategoryTitle }}</span>
         <img src="images/icons/chevron-down.png" />
-        <span>Skincare</span>
-        <img src="images/icons/chevron-down.png" />
-        <span
-          >These 13 Low-Maintenance TikTok-Viral Lip Stains Are Practically
-          Magic</span
-        >
+        <span>{{ navArticleTitle }}</span>
       </div>
 
       <select class="form-select">
@@ -20,7 +17,10 @@
     <div class="actions" *ngIf="form" [formGroup]="form">
       <select class="form-select" [formControlName]="'template_id'">
         <option value="null">Select template</option>
-        <option *ngFor="let item of templates" [value]="item.id">
+        <option
+          *ngFor="let item of dashboardService.templates"
+          [value]="item.id"
+        >
           {{ item.template_name }}
         </option>
       </select>
@@ -34,7 +34,15 @@
           <span>Generate</span>
           <app-loading />
         </button>
-        <button class="btn btn-dark">Save Article</button>
+        <button
+          [ngClass]="{ loading: isSaving }"
+          [disabled]="isSaving"
+          class="btn btn-dark"
+          (click)="onSaveArticle()"
+        >
+          <span>Save Article</span>
+          <app-loading />
+        </button>
       </div>
     </div>
   </div>
@@ -195,7 +203,7 @@
         <div class="item">
           <span class="title">Status</span>
           <span class="value">
-            <select class="form-select status">
+            <select [formControlName]="'status'" class="form-select status">
               <option value="1">In progress</option>
             </select>
           </span>
@@ -205,7 +213,10 @@
           <span class="value">
             <select class="form-select" [formControlName]="'category_id'">
               <option value="null">Select Category</option>
-              <option *ngFor="let item of categories" [value]="item.id">
+              <option
+                *ngFor="let item of dashboardService.categories"
+                [value]="item.id"
+              >
                 {{ item.name }}
               </option>
             </select>
