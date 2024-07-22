@@ -1,0 +1,63 @@
+<section class="filter-wrapper">
+  <div class="breadcrumb-wrapper">
+    <span>Users</span>
+  </div>
+
+  <div class="actions">
+    <button class="btn btn-primary" (click)="onAddUser()">Add +</button>
+  </div>
+</section>
+
+<section class="articles-wrapper">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Login</th>
+        <th scope="col">Name</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (item of users; track $index) {
+        <tr>
+          <td class="article-title">
+            {{ item.username }}
+          </td>
+
+          <td class="article-title">
+            {{ item.first_name }} {{ item.last_name }}
+          </td>
+
+          <td class="article-actions">
+            <div ngbDropdown class="d-inline-block">
+              <img
+                class="more-icon"
+                id="dropdownBasic_{{ $index }}"
+                ngbDropdownToggle
+                src="images/icons/more.png"
+              />
+
+              <div
+                ngbDropdownMenu
+                class="article-dropdown-menu"
+                [attr.aria-labelledby]="'dropdownBasic_' + $index"
+              >
+                <button ngbDropdownItem (click)="onEditUser(item)">
+                  <img src="images/icons/edit.png" />
+                  <span>Update user</span>
+                </button>
+
+                <span class="border"></span>
+
+                <button ngbDropdownItem (click)="onDeleteUser(item)">
+                  <img src="images/icons/trash.png" />
+                  <span>Delete user</span>
+                </button>
+              </div>
+            </div>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</section>

@@ -6,6 +6,7 @@ import { ArticleDashboardComponent } from "./article-dashboard/article-dashboard
 import { CreateTemplateComponent } from "./create-template/create-template.component";
 import { RoutesNames } from "./shared/enums/routes.enum";
 import { AuthGuard } from "./shared/guards/auth.guard";
+import { UsersComponent } from "./users/users.component";
 
 export const routes: Routes = [
   {
@@ -16,6 +17,11 @@ export const routes: Routes = [
   {
     path: RoutesNames.Login,
     component: LoginComponent,
+  },
+  {
+    path: RoutesNames.Users,
+    component: UsersComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: RoutesNames.Articles,

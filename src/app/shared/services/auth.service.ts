@@ -3,6 +3,7 @@ import { HttpService } from "./http.service";
 import {
   ILoginCredentials,
   ILoginResponse,
+  IRegisterCredentials,
   IUser,
 } from "../interfaces/login.interfaces";
 import { Observable } from "rxjs";
@@ -26,14 +27,10 @@ export class AuthService extends HttpService {
   }
 
   public updateUser(
-    user_id: number,
-    username: string,
-    password: string,
+    user_id: string,
+    data: IRegisterCredentials,
   ): Observable<void> {
-    return this.put<ILoginCredentials, void>("users/" + user_id, {
-      username,
-      password,
-    });
+    return this.put<IRegisterCredentials, void>("users/" + user_id, data);
   }
 
   public login(username: string, password: string) {
@@ -50,10 +47,7 @@ export class AuthService extends HttpService {
     });
   }
 
-  public register(username: string, password: string) {
-    return this.post<ILoginCredentials, ILoginResponse>("register", {
-      username,
-      password,
-    });
+  public register(data: IRegisterCredentials) {
+    return this.post<ILoginCredentials, ILoginResponse>("register", data);
   }
 }

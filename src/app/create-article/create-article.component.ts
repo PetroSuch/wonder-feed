@@ -11,6 +11,7 @@ import {
   moveItemInArray,
 } from "@angular/cdk/drag-drop";
 import {
+  FormArray,
   FormControl,
   FormGroup,
   ReactiveFormsModule,
@@ -51,18 +52,17 @@ import { DashboardService } from "../shared/services/dashboard.service";
   styleUrl: "./create-article.component.scss",
 })
 export class CreateArticleComponent {
-  public items = ["Product Title 1", "Product Title 2", "Product Title 3"];
   public form: FormGroup<IGenerateArticleForm> | undefined;
   public formResult: FormGroup<IGenerateResultForm> | undefined;
   public regeneratingTitleKey: string | undefined;
   public isSaving: boolean;
   public isGenerating: boolean;
   public showErrors: boolean;
-  private articleData: IArticle | null = null;
+  public articleData: IArticle | null = null;
   private categoriesMap: Map<number, string> = new Map();
   private destroyRef = inject(DestroyRef);
 
-  private get articleId(): number | null {
+  public get articleId(): number | null {
     return this.route.snapshot.params["articleId"] as number;
   }
 
@@ -127,7 +127,7 @@ export class CreateArticleComponent {
       status: formData.status!,
       // metadata
       article: formData.article!,
-      product_titles: [formData.title1!, formData.title2!, formData.title3!],
+      product_titles: formData.product_titles! as string[],
       template_id: formData.template_id!,
       category_id: formData.category_id!,
     };
@@ -166,9 +166,7 @@ export class CreateArticleComponent {
       category_id: +value.category_id!,
       template_id: +value.template_id!,
       article_title1: value.article!,
-      product_title1: value.title1!,
-      product_title2: value.title2!,
-      product_title3: value.title3!,
+      product_titles: value.product_titles as string[],
     };
 
     const errMsg = "Something went wrong. Please try again later.";
@@ -199,9 +197,7 @@ export class CreateArticleComponent {
     const data: IRegenerateTitle = {
       template_id: 1,
       article_title1: value.article!,
-      product_title1: value.title1!,
-      product_title2: value.title2!,
-      product_title3: value.title3!,
+      product_titles: value.product_titles as string[],
       title_regenerate: currentTitle,
     };
     const errMsg = "Something went wrong. Please try again later.";
@@ -228,6 +224,23 @@ export class CreateArticleComponent {
     this.alertService.success("Copied to clipboard!");
   }
 
+  public onAddProductTitle() {
+    if (!this.form) return;
+
+    const validators = [Validators.required];
+    const control = new FormControl<null | string>(null, { validators });
+    (this.form.controls.product_titles as FormArray).push(control);
+  }
+
+  public onRemoveProductTitle(index: number) {
+    if (!this.form) return;
+
+    const conf = confirm("Are you sure you want to remove this product title?");
+    if (!conf) return;
+
+    (this.form.controls.product_titles as FormArray).removeAt(index);
+  }
+
   private patchGenerateForm(data: IGenerateArticleResponse) {
     if (!this.formResult) return;
 
@@ -241,14 +254,17 @@ export class CreateArticleComponent {
   }
 
   private initForm() {
+    const validators = [Validators.required];
     this.form = new FormGroup<IGenerateArticleForm>({
       category_id: new FormControl<null | number>(null),
       template_id: new FormControl<null | number>(null),
       status: new FormControl<null | string>(null),
       article: new FormControl<null | string>(null),
-      title1: new FormControl<null | string>(null),
-      title2: new FormControl<null | string>(null),
-      title3: new FormControl<null | string>(null),
+      product_titles: new FormArray<FormControl<null | string>>([
+        new FormControl<null | string>(null, { validators }),
+        new FormControl<null | string>(null, { validators }),
+        new FormControl<null | string>(null, { validators }),
+      ]),
     });
 
     this.form.valueChanges.subscribe((v) => {
@@ -272,6 +288,7 @@ export class CreateArticleComponent {
       .pipe(
         tap((data) => (this.articleData = data)),
         tap((data) => this.form?.patchValue(data)),
+        tap((data) => this.form?.patchValue(data.article_metadata)),
         tap((data) => this.formResult?.patchValue(data)),
         catchError(() => this.alertService.error()),
       )
@@ -280,17 +297,19 @@ export class CreateArticleComponent {
 
   private initValidation() {
     if (!this.form) return;
-    const { title1, title2, title3, article, template_id, category_id } =
+    const { article, template_id, category_id, product_titles } =
       this.form.controls;
 
-    [title1, title2, title3, article, template_id, category_id].forEach(
-      (control) => {
-        control.setValidators([Validators.required]);
-      },
-    );
+    [article, template_id, category_id, product_titles].forEach((control) => {
+      control.setValidators([Validators.required]);
+    });
   }
 
-  drop(event: CdkDragDrop<number[]>) {
-    moveItemInArray(this.items, event.previousIndex, event.currentIndex);
+  drop(event: CdkDragDrop<any[]>) {
+    moveItemInArray(
+      this.form?.controls.product_titles.controls as any[],
+      event.previousIndex,
+      event.currentIndex,
+    );
   }
 }

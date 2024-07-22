@@ -302,7 +302,7 @@
             border: none;
             font-size: 14px;
             padding-inline: 0;
-            height: 30px;
+            min-height: 30px;
 
             &:placeholder{
                 color: #9D9D9F;

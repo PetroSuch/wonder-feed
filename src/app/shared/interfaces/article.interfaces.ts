@@ -1,4 +1,4 @@
-import { FormControl } from "@angular/forms";
+import { FormArray, FormControl } from "@angular/forms";
 
 export interface IArticle {
   id: number;
@@ -12,6 +12,11 @@ export interface IArticle {
   publication_date: string;
   last_edited: string;
   status: string;
+  article_metadata: {
+    article: string;
+    product_titles: string[];
+    template_id: number;
+  };
 }
 
 export interface ICreateArticle {
@@ -33,9 +38,7 @@ export interface IGenerateArticleForm {
   category_id: FormControl<null | number>;
   status: FormControl<null | string>;
   article: FormControl<null | string>;
-  title1: FormControl<null | string>;
-  title2: FormControl<null | string>;
-  title3: FormControl<null | string>;
+  product_titles: FormArray<FormControl<null | string>>;
 }
 
 export interface IGenerateResultForm {
@@ -50,9 +53,7 @@ export interface IGenerateArticle {
   template_id: number;
   category_id: number;
   article_title1: string;
-  product_title1: string;
-  product_title2: string;
-  product_title3: string;
+  product_titles: string[];
 }
 
 export interface IGenerateArticleResponse {
@@ -66,9 +67,7 @@ export interface IGenerateArticleResponse {
 export interface IRegenerateTitle {
   template_id: number;
   article_title1: string;
-  product_title1: string;
-  product_title2: string;
-  product_title3: string;
+  product_titles: string[];
   title_regenerate: string;
 }
 

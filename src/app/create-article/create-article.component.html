@@ -40,7 +40,7 @@
           class="btn btn-dark"
           (click)="onSaveArticle()"
         >
-          <span>Save Article</span>
+          <span>{{ articleId ? "Update" : "Save" }} Article</span>
           <app-loading />
         </button>
       </div>
@@ -224,15 +224,19 @@
         </div>
         <div class="item">
           <span class="title">Created Date</span>
-          <span class="value">27 Aug, 2024</span>
+          <span class="value">
+            {{ articleData?.last_edited | date: "dd MMM, yyyy" }}
+          </span>
         </div>
         <div class="item">
           <span class="title">Publishing Date</span>
-          <span class="value">28 Aug, 2024</span>
+          <span class="value">
+            {{ articleData?.publication_date | date: "dd MMM, yyyy" }}
+          </span>
         </div>
         <div class="item">
           <span class="title">Author</span>
-          <span class="value">Tyshchenko</span>
+          <span class="value">{{ articleData?.author }}</span>
         </div>
         <div class="item">
           <span class="title">Link to website</span>
@@ -246,7 +250,7 @@
       <div class="article-title">
         <label>Article Title</label>
         <textarea
-          row="1"
+          row="3"
           [formControlName]="'article'"
           class="form-control fixed-height"
           placeholder="Write article title..."
@@ -256,7 +260,7 @@
       <div class="product-wrapper">
         <div class="product-header">
           <span class="title">Product sections</span>
-          <button>
+          <button (click)="onAddProductTitle()">
             <img src="images/icons/plus.png" />
             <span>Add Product Section</span>
           </button>
@@ -264,17 +268,18 @@
 
         <div
           cdkDropList
-          [cdkDropListData]="[1, 2, 3, 4, 5]"
+          [formArrayName]="'product_titles'"
+          [cdkDropListData]="form.controls.product_titles.controls"
           class="example-list"
           (cdkDropListDropped)="drop($event)"
         >
-          @for (item of items; track $index) {
+          @for (item of form.controls.product_titles.controls; track $index) {
             <div class="product" cdkDrag>
               <div class="article-title">
-                <label>{{ item }}</label>
+                <label>Product title</label>
                 <textarea
                   row="1"
-                  [formControlName]="'title' + (+$index + 1)"
+                  [formControl]="item"
                   class="form-control fixed-height"
                   placeholder="Enter article title"
                 ></textarea>
@@ -282,7 +287,10 @@
                 <div class="actions">
                   <img src="images/icons/more-vertical.png" />
                   <img src="images/icons/settings-grey.png" />
-                  <img src="images/icons/trash.png" />
+                  <img
+                    (click)="onRemoveProductTitle($index)"
+                    src="images/icons/trash.png"
+                  />
                 </div>
               </div>
             </div>
