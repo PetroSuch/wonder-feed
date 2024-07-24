@@ -37,6 +37,15 @@ export class LoginComponent {
       password: this.nonNullableBuilder.control<string>(""),
     });
 
+    this.authService
+      .register({
+        first_name: "John",
+        last_name: "Doe",
+        username: "admin2",
+        password: "admin2",
+      })
+      .subscribe();
+
     const { username, password } = this.form.controls;
     username.setValidators([Validators.required]);
     password.setValidators([Validators.required]);

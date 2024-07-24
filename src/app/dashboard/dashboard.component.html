@@ -29,7 +29,7 @@
       @for (item of articles; track $index) {
         <tr>
           <td class="article-title">
-            <div>
+            <div class="cursor-pointer" (click)="onEditArticle(item)">
               <img src="images/icons/article-title.png" />
               <span>
                 {{ item.article_title1 }}
@@ -88,7 +88,7 @@
 
                 <span class="border"></span>
 
-                <button ngbDropdownItem>
+                <button ngbDropdownItem (click)="onDuplicateArticle(item)">
                   <img src="images/icons/copy.png" />
                   <span>Duplicate article</span>
                 </button>

@@ -52,4 +52,8 @@ export class ArticleService extends HttpService {
   public createArticle(data: ICreateArticle) {
     return this.post("articles", data);
   }
+
+  public duplicateArticle(article_id: number) {
+    return this.post(`articles/${article_id}/duplicate`, {});
+  }
 }

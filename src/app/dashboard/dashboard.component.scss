@@ -75,6 +75,11 @@ header{
     }
 }
 
+.cursor-pointer{
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
 .articles-wrapper{
     padding-inline: 15px;
 

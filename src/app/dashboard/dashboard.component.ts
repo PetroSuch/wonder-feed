@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, DestroyRef, inject } from "@angular/core";
 import { NgbDropdownModule } from "@ng-bootstrap/ng-bootstrap";
 import { IArticle } from "../shared/interfaces/article.interfaces";
 import { ActivatedRoute, Router } from "@angular/router";
@@ -7,6 +7,8 @@ import { ArticleService } from "../shared/services/article.service";
 import { RoutesNames } from "../shared/enums/routes.enum";
 import { ICategory } from "../shared/interfaces/category.interfaces";
 import { CategoryService } from "../shared/services/category.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { filter, tap } from "rxjs";
 
 @Component({
   selector: "app-dashboard",
@@ -18,6 +20,7 @@ import { CategoryService } from "../shared/services/category.service";
 export class DashboardComponent {
   public articles: IArticle[];
   private categoryData: ICategory | null = null;
+  private readonly destroyRef = inject(DestroyRef);
 
   private get categoryId() {
     return this.route.snapshot.params["categoryId"] as number;
@@ -39,6 +42,14 @@ export class DashboardComponent {
       this.categoryData = response;
     });
     this.fetchArticles();
+
+    this.route.params
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        filter((params) => !!params["categoryId"]),
+        tap(() => this.fetchArticles()),
+      )
+      .subscribe();
   }
 
   public fetchArticles() {
@@ -65,5 +76,14 @@ export class DashboardComponent {
       RoutesNames.Create,
       article.id,
     ]);
+  }
+
+  public onDuplicateArticle(article: IArticle) {
+    const conf = confirm("Are you sure you want to duplicate this article?");
+    if (!conf) return;
+
+    this.articleService.duplicateArticle(article.id).subscribe(() => {
+      this.fetchArticles();
+    });
   }
 }

@@ -50,143 +50,315 @@
   <div class="article-wrapper">
     <div class="article-content" *ngIf="formResult" [formGroup]="formResult!">
       <div class="tabs">
-        <button class="active">General</button>
-        <button>Products</button>
-        <button>Social</button>
-        <button>SEO</button>
+        <button [ngClass]="{ active: activeTab === 1 }" (click)="activeTab = 1">
+          General
+        </button>
+        <button [ngClass]="{ active: activeTab === 2 }" (click)="activeTab = 2">
+          Products
+        </button>
+        <button [ngClass]="{ active: activeTab === 3 }" (click)="activeTab = 3">
+          Social
+        </button>
+        <button [ngClass]="{ active: activeTab === 4 }" (click)="activeTab = 4">
+          SEO
+        </button>
       </div>
 
-      <div ngbAccordion class="mt-4">
-        <div ngbAccordionItem [collapsed]="false">
-          <h2 ngbAccordionHeader>
-            <button ngbAccordionButton>
-              <img src="images/icons/title.png" />
-              <span>Article Title</span>
-            </button>
-          </h2>
-          <div ngbAccordionCollapse>
-            <div ngbAccordionBody>
-              <ng-template>
-                <div class="fields-wrapper">
-                  <div class="field">
-                    <textarea
-                      row="1"
-                      [formControlName]="'article_title1'"
-                      class="form-control fixed-height"
-                      placeholder="Enter article title"
-                    ></textarea>
-                    <img
-                      [ngClass]="{
-                        spin: regeneratingTitleKey === 'article_title1',
-                      }"
-                      (click)="onRegenerateTitle('article_title1')"
-                      src="images/icons/refresh.png"
-                    />
-                    <img
-                      (click)="onCopyToClipboard('article_title1')"
-                      src="images/icons/copy.png"
-                    />
-                  </div>
+      <div class="tabs-wrapper">
+        <div class="tab-item" [ngClass]="{ visible: activeTab === 1 }">
+          <div ngbAccordion class="mt-2">
+            <div ngbAccordionItem [collapsed]="false">
+              <h2 ngbAccordionHeader>
+                <button ngbAccordionButton>
+                  <img src="images/icons/title.png" />
+                  <span>Article Title</span>
+                </button>
+              </h2>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                  <ng-template>
+                    <div class="fields-wrapper">
+                      <div class="field">
+                        <textarea
+                          row="1"
+                          [formControlName]="'article_title1'"
+                          class="form-control fixed-height"
+                          placeholder="Enter article title"
+                        ></textarea>
+                        <img
+                          [ngClass]="{
+                            spin: regeneratingTitleKey === 'article_title1',
+                          }"
+                          (click)="onRegenerateTitle('article_title1')"
+                          src="images/icons/refresh.png"
+                        />
+                        <img
+                          (click)="onCopyToClipboard('article_title1')"
+                          src="images/icons/copy.png"
+                        />
+                      </div>
 
-                  <div class="field">
-                    <textarea
-                      row="1"
-                      [formControlName]="'article_title2'"
-                      class="form-control fixed-height"
-                      placeholder="Enter article title"
-                    ></textarea>
-                    <img
-                      [ngClass]="{
-                        spin: regeneratingTitleKey === 'article_title2',
-                      }"
-                      (click)="onRegenerateTitle('article_title2')"
-                      src="images/icons/refresh.png"
-                    />
-                    <img
-                      (click)="onCopyToClipboard('article_title2')"
-                      src="images/icons/copy.png"
-                    />
-                  </div>
+                      <div class="field">
+                        <textarea
+                          row="1"
+                          [formControlName]="'article_title2'"
+                          class="form-control fixed-height"
+                          placeholder="Enter article title"
+                        ></textarea>
+                        <img
+                          [ngClass]="{
+                            spin: regeneratingTitleKey === 'article_title2',
+                          }"
+                          (click)="onRegenerateTitle('article_title2')"
+                          src="images/icons/refresh.png"
+                        />
+                        <img
+                          (click)="onCopyToClipboard('article_title2')"
+                          src="images/icons/copy.png"
+                        />
+                      </div>
 
-                  <div class="field">
-                    <textarea
-                      row="1"
-                      [formControlName]="'article_title3'"
-                      class="form-control fixed-height"
-                      placeholder="Enter article title"
-                    ></textarea>
-                    <img
-                      [ngClass]="{
-                        spin: regeneratingTitleKey === 'article_title3',
-                      }"
-                      (click)="onRegenerateTitle('article_title3')"
-                      src="images/icons/refresh.png"
-                    />
-                    <img
-                      (click)="onCopyToClipboard('article_title3')"
-                      src="images/icons/copy.png"
-                    />
-                  </div>
+                      <div class="field">
+                        <textarea
+                          row="1"
+                          [formControlName]="'article_title3'"
+                          class="form-control fixed-height"
+                          placeholder="Enter article title"
+                        ></textarea>
+                        <img
+                          [ngClass]="{
+                            spin: regeneratingTitleKey === 'article_title3',
+                          }"
+                          (click)="onRegenerateTitle('article_title3')"
+                          src="images/icons/refresh.png"
+                        />
+                        <img
+                          (click)="onCopyToClipboard('article_title3')"
+                          src="images/icons/copy.png"
+                        />
+                      </div>
+                    </div>
+                  </ng-template>
                 </div>
-              </ng-template>
+              </div>
+            </div>
+          </div>
+
+          <div ngbAccordion class="mt-2">
+            <div ngbAccordionItem [collapsed]="false">
+              <h2 ngbAccordionHeader>
+                <button ngbAccordionButton>
+                  <img src="images/icons/description.png" />
+                  <span>Article Description</span>
+                </button>
+              </h2>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                  <ng-template>
+                    <div class="fields-wrapper">
+                      <div class="field">
+                        <textarea
+                          row="5"
+                          [formControlName]="'article_description'"
+                          class="form-control"
+                          placeholder="Enter article title"
+                        ></textarea>
+                        <img src="images/icons/refresh.png" />
+                        <img src="images/icons/copy.png" />
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div ngbAccordion class="mt-2">
+            <div ngbAccordionItem [collapsed]="false">
+              <h2 ngbAccordionHeader>
+                <button ngbAccordionButton>
+                  <img src="images/icons/alt.png" />
+                  <span>Alt Text</span>
+                </button>
+              </h2>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                  <ng-template>
+                    <div class="fields-wrapper">
+                      <div class="field">
+                        <textarea
+                          row="1"
+                          [formControlName]="'alt_text'"
+                          class="form-control fixed-height"
+                          placeholder="Enter article title"
+                        ></textarea>
+                        <img src="images/icons/refresh.png" />
+                        <img src="images/icons/copy.png" />
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+        <div
+          class="tab-item"
+          [ngClass]="{ visible: activeTab === 2 }"
+          *ngIf="formResult.controls.products.controls as products"
+        >
+          <div ngbAccordion class="mt-2" *ngFor="let product of products">
+            <div ngbAccordionItem [collapsed]="false">
+              <h2 ngbAccordionHeader>
+                <button ngbAccordionButton>
+                  <img src="images/icons/product.png" />
+                  <span>Product Title 1</span>
+                </button>
+              </h2>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody class="d-flex flex-column gap-2">
+                  <ng-template>
+                    <div class="fields-wrapper">
+                      <div class="field">
+                        <textarea
+                          row="1"
+                          [formControl]="product.controls.title"
+                          class="form-control fixed-height"
+                          placeholder="Enter article title"
+                        ></textarea>
+                        <img
+                          [ngClass]="{
+                            spin: regeneratingTitleKey === 'article_title1',
+                          }"
+                          (click)="onRegenerateTitle('article_title1')"
+                          src="images/icons/refresh.png"
+                        />
+                        <img
+                          (click)="onCopyToClipboard('article_title1')"
+                          src="images/icons/copy.png"
+                        />
+                      </div>
+                    </div>
 
-      <div ngbAccordion class="mt-4">
-        <div ngbAccordionItem [collapsed]="false">
-          <h2 ngbAccordionHeader>
-            <button ngbAccordionButton>
-              <img src="images/icons/description.png" />
-              <span>Article Description</span>
-            </button>
-          </h2>
-          <div ngbAccordionCollapse>
-            <div ngbAccordionBody>
-              <ng-template>
-                <div class="fields-wrapper">
-                  <div class="field">
-                    <textarea
-                      row="5"
-                      [formControlName]="'article_description'"
-                      class="form-control"
-                      placeholder="Enter article title"
-                    ></textarea>
-                    <img src="images/icons/refresh.png" />
-                    <img src="images/icons/copy.png" />
-                  </div>
+                    <div class="fields-wrapper">
+                      <div class="field">
+                        <label>Description</label>
+                        <textarea
+                          rows="3"
+                          [formControl]="product.controls.description"
+                          class="form-control"
+                          placeholder="Enter article title"
+                        ></textarea>
+                      </div>
+                    </div>
+
+                    <div class="fields-wrapper">
+                      <div class="field">
+                        <label>Alt Text</label>
+                        <textarea
+                          rows="3"
+                          [formControl]="product.controls.alt_text"
+                          class="form-control"
+                          placeholder="Enter article title"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </ng-template>
                 </div>
-              </ng-template>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <div ngbAccordion class="mt-4">
-        <div ngbAccordionItem [collapsed]="false">
-          <h2 ngbAccordionHeader>
-            <button ngbAccordionButton>
-              <img src="images/icons/alt.png" />
-              <span>Alt Text</span>
-            </button>
-          </h2>
-          <div ngbAccordionCollapse>
-            <div ngbAccordionBody>
-              <ng-template>
-                <div class="fields-wrapper">
-                  <div class="field">
-                    <textarea
-                      row="1"
-                      [formControlName]="'alt_text'"
-                      class="form-control fixed-height"
-                      placeholder="Enter article title"
-                    ></textarea>
-                    <img src="images/icons/refresh.png" />
-                    <img src="images/icons/copy.png" />
-                  </div>
+        <div class="tab-item" [ngClass]="{ visible: activeTab === 3 }">3</div>
+        <div class="tab-item" [ngClass]="{ visible: activeTab === 4 }">
+          <div ngbAccordion class="mt-2">
+            <div ngbAccordionItem [collapsed]="false">
+              <h2 ngbAccordionHeader>
+                <button ngbAccordionButton>
+                  <img src="images/icons/title.png" />
+                  <span>Meta Title</span>
+                </button>
+              </h2>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                  <ng-template>
+                    <div class="fields-wrapper">
+                      <div class="field">
+                        <textarea
+                          row="1"
+                          [formControlName]="'seo_title'"
+                          class="form-control fixed-height"
+                          placeholder="SEO Title"
+                        ></textarea>
+                        <img
+                          [ngClass]="{
+                            spin: regeneratingTitleKey === 'article_title3',
+                          }"
+                          src="images/icons/refresh.png"
+                        />
+                        <img
+                          (click)="onCopyToClipboard('seo_title')"
+                          src="images/icons/copy.png"
+                        />
+                      </div>
+                    </div>
+                  </ng-template>
                 </div>
-              </ng-template>
+              </div>
+            </div>
+          </div>
+
+          <div ngbAccordion class="mt-2">
+            <div ngbAccordionItem [collapsed]="false">
+              <h2 ngbAccordionHeader>
+                <button ngbAccordionButton>
+                  <img src="images/icons/title.png" />
+                  <span>Meta Description</span>
+                </button>
+              </h2>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                  <ng-template>
+                    <div class="fields-wrapper">
+                      <div class="field">
+                        <textarea
+                          rows="5"
+                          [formControlName]="'seo_description'"
+                          class="form-control"
+                          placeholder="Meta Description"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div ngbAccordion class="mt-2">
+            <div ngbAccordionItem [collapsed]="false">
+              <h2 ngbAccordionHeader>
+                <button ngbAccordionButton>
+                  <img src="images/icons/title.png" />
+                  <span>Meta Keywords</span>
+                </button>
+              </h2>
+              <div ngbAccordionCollapse>
+                <div ngbAccordionBody>
+                  <ng-template>
+                    <div class="fields-wrapper">
+                      <div class="field">
+                        <textarea
+                          rows="5"
+                          [formControlName]="'seo_keywords'"
+                          class="form-control"
+                          placeholder="Meta Keywords"
+                        ></textarea>
+                      </div>
+                    </div>
+                  </ng-template>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -195,106 +367,137 @@
 
     <div class="article-metadata" *ngIf="!!form" [formGroup]="form!">
       <div class="tabs">
-        <button class="active">General</button>
-        <button>SEO</button>
-      </div>
-
-      <div class="info-wrapper">
-        <div class="item">
-          <span class="title">Status</span>
-          <span class="value">
-            <select [formControlName]="'status'" class="form-select status">
-              <option value="1">In progress</option>
-            </select>
-          </span>
-        </div>
-        <div class="item">
-          <span class="title">Category</span>
-          <span class="value">
-            <select class="form-select" [formControlName]="'category_id'">
-              <option value="null">Select Category</option>
-              <option
-                *ngFor="let item of dashboardService.categories"
-                [value]="item.id"
-              >
-                {{ item.name }}
-              </option>
-            </select>
-          </span>
-        </div>
-        <div class="item">
-          <span class="title">Created Date</span>
-          <span class="value">
-            {{ articleData?.last_edited | date: "dd MMM, yyyy" }}
-          </span>
-        </div>
-        <div class="item">
-          <span class="title">Publishing Date</span>
-          <span class="value">
-            {{ articleData?.publication_date | date: "dd MMM, yyyy" }}
-          </span>
-        </div>
-        <div class="item">
-          <span class="title">Author</span>
-          <span class="value">{{ articleData?.author }}</span>
-        </div>
-        <div class="item">
-          <span class="title">Link to website</span>
-          <a class="value link">
-            <span>Link</span>
-            <img src="images/icons/link.png" />
-          </a>
-        </div>
-      </div>
-
-      <div class="article-title">
-        <label>Article Title</label>
-        <textarea
-          row="3"
-          [formControlName]="'article'"
-          class="form-control fixed-height"
-          placeholder="Write article title..."
-        ></textarea>
-      </div>
-
-      <div class="product-wrapper">
-        <div class="product-header">
-          <span class="title">Product sections</span>
-          <button (click)="onAddProductTitle()">
-            <img src="images/icons/plus.png" />
-            <span>Add Product Section</span>
-          </button>
-        </div>
-
-        <div
-          cdkDropList
-          [formArrayName]="'product_titles'"
-          [cdkDropListData]="form.controls.product_titles.controls"
-          class="example-list"
-          (cdkDropListDropped)="drop($event)"
+        <button
+          (click)="metadataActiveTab = 1"
+          [ngClass]="{ active: metadataActiveTab === 1 }"
         >
-          @for (item of form.controls.product_titles.controls; track $index) {
-            <div class="product" cdkDrag>
-              <div class="article-title">
-                <label>Product title</label>
-                <textarea
-                  row="1"
-                  [formControl]="item"
-                  class="form-control fixed-height"
-                  placeholder="Enter article title"
-                ></textarea>
+          General
+        </button>
+        <button
+          (click)="metadataActiveTab = 2"
+          [ngClass]="{ active: metadataActiveTab === 2 }"
+        >
+          SEO
+        </button>
+      </div>
 
-                <div class="actions">
-                  <img src="images/icons/more-vertical.png" />
-                  <img src="images/icons/settings-grey.png" />
-                  <img
-                    (click)="onRemoveProductTitle($index)"
-                    src="images/icons/trash.png"
-                  />
-                </div>
-              </div>
+      <div class="tabs-wrapper">
+        <div class="tab-item" [ngClass]="{ visible: metadataActiveTab === 1 }">
+          <div class="info-wrapper">
+            <div class="item">
+              <span class="title">Status</span>
+              <span class="value">
+                <select [formControlName]="'status'" class="form-select status">
+                  <option value="1">In progress</option>
+                </select>
+              </span>
             </div>
-          }
+            <div class="item">
+              <span class="title">Category</span>
+              <span class="value">
+                <select class="form-select" [formControlName]="'category_id'">
+                  <option value="null">Select Category</option>
+                  <option
+                    *ngFor="let item of dashboardService.categories"
+                    [value]="item.id"
+                  >
+                    {{ item.name }}
+                  </option>
+                </select>
+              </span>
+            </div>
+            @if (articleId) {
+              <div class="item">
+                <span class="title">Created Date</span>
+                <span class="value">
+                  {{ articleData?.last_edited | date: "dd MMM, yyyy" }}
+                </span>
+              </div>
+              <div class="item">
+                <span class="title">Publishing Date</span>
+                <span class="value">
+                  {{ articleData?.publication_date | date: "dd MMM, yyyy" }}
+                </span>
+              </div>
+              <div class="item">
+                <span class="title">Author</span>
+                <span class="value">{{ articleData?.author }}</span>
+              </div>
+              <div class="item">
+                <span class="title">Link to website</span>
+                <a class="value link">
+                  <span>Link</span>
+                  <img src="images/icons/link.png" />
+                </a>
+              </div>
+            }
+          </div>
+
+          <div class="article-title">
+            <label>Article Title</label>
+            <textarea
+              row="3"
+              [formControlName]="'article'"
+              class="form-control fixed-height"
+              placeholder="Write article title..."
+            ></textarea>
+          </div>
+
+          <div class="product-wrapper">
+            <div class="product-header">
+              <span class="title">Product sections</span>
+              <button (click)="onAddProductTitle()">
+                <img src="images/icons/plus.png" />
+                <span>Add Product Section</span>
+              </button>
+            </div>
+
+            <div
+              cdkDropList
+              [formArrayName]="'product_titles'"
+              [cdkDropListData]="form.controls.product_titles.controls"
+              class="example-list"
+              (cdkDropListDropped)="drop($event)"
+            >
+              @for (
+                item of form.controls.product_titles.controls;
+                track $index
+              ) {
+                <div class="product" cdkDrag>
+                  <div class="article-title">
+                    <label>Product title</label>
+                    <textarea
+                      row="1"
+                      [formControl]="item"
+                      class="form-control fixed-height"
+                      placeholder="Enter article title"
+                    ></textarea>
+
+                    <div class="actions">
+                      <img src="images/icons/more-vertical.png" />
+                      <img src="images/icons/settings-grey.png" />
+                      <img
+                        (click)="onRemoveProductTitle($index)"
+                        src="images/icons/trash.png"
+                      />
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        </div>
+
+        <div class="tab-item" [ngClass]="{ visible: metadataActiveTab === 2 }">
+          <div class="article-title">
+            <label>SEO</label>
+            <textarea
+              rows="25"
+              [formControlName]="'seo_keywords'"
+              class="form-control fixed-height"
+              placeholder="Write something..."
+            ></textarea>
+          </div>
         </div>
       </div>
     </div>

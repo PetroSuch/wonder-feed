@@ -25,6 +25,9 @@ import {
   IRegenerateTitle,
   ICreateArticle,
   IArticle,
+  IProductItemForm,
+  IGenerateProduct,
+  IGenerateSEO,
 } from "../shared/interfaces/article.interfaces";
 import { CommonModule } from "@angular/common";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
@@ -55,6 +58,8 @@ export class CreateArticleComponent {
   public form: FormGroup<IGenerateArticleForm> | undefined;
   public formResult: FormGroup<IGenerateResultForm> | undefined;
   public regeneratingTitleKey: string | undefined;
+  public activeTab: number;
+  public metadataActiveTab: number;
   public isSaving: boolean;
   public isGenerating: boolean;
   public showErrors: boolean;
@@ -85,6 +90,8 @@ export class CreateArticleComponent {
     private articleService: ArticleService,
     public dashboardService: DashboardService,
   ) {
+    this.activeTab = 1;
+    this.metadataActiveTab = 1;
     this.isSaving = false;
     this.isGenerating = false;
     this.showErrors = false;
@@ -118,6 +125,18 @@ export class CreateArticleComponent {
 
     const formResult = this.formResult.value;
     const formData = this.form?.value;
+    const products_list = formResult.products!.map((product) => ({
+      title: product.title,
+      description: product.description,
+      alt_text: product.alt_text,
+    })) as IGenerateProduct[];
+
+    const seo_data: IGenerateSEO = {
+      title: formResult.seo_title!,
+      description: formResult.seo_description!,
+      keywords: formResult.seo_keywords!,
+    };
+
     const data: ICreateArticle = {
       alt_text: formResult.alt_text!,
       article_description: formResult.article_description!,
@@ -125,6 +144,9 @@ export class CreateArticleComponent {
       article_title2: formResult.article_title2!,
       article_title3: formResult.article_title3!,
       status: formData.status!,
+      products_list: products_list,
+      seo: seo_data,
+      seo_keywords: formResult.seo_keywords!,
       // metadata
       article: formData.article!,
       product_titles: formData.product_titles! as string[],
@@ -167,6 +189,7 @@ export class CreateArticleComponent {
       template_id: +value.template_id!,
       article_title1: value.article!,
       product_titles: value.product_titles as string[],
+      seo_keywords: value.seo_keywords!,
     };
 
     const errMsg = "Something went wrong. Please try again later.";
@@ -199,6 +222,7 @@ export class CreateArticleComponent {
       article_title1: value.article!,
       product_titles: value.product_titles as string[],
       title_regenerate: currentTitle,
+      seo_keywords: value.seo_keywords!,
     };
     const errMsg = "Something went wrong. Please try again later.";
 
@@ -245,11 +269,25 @@ export class CreateArticleComponent {
     if (!this.formResult) return;
 
     this.formResult.patchValue({
-      article_title1: data.title1,
-      article_title2: data.title2,
-      article_title3: data.title3,
-      alt_text: data.alt_text,
-      article_description: data.article_description,
+      article_title1: data.general.title1,
+      article_title2: data.general.title2,
+      article_title3: data.general.title3,
+      alt_text: data.general.alt_text,
+      article_description: data.general.article_description,
+      seo_title: data.seo.title,
+      seo_description: data.seo.description,
+      seo_keywords: data.seo.keywords,
+    });
+
+    const products = this.formResult.controls.products as FormArray;
+    products.clear();
+    data.products_list.forEach((product) => {
+      const productForm = new FormGroup<IProductItemForm>({
+        title: new FormControl(product.title),
+        description: new FormControl(product.description),
+        alt_text: new FormControl(product.alt_text),
+      });
+      products.push(productForm);
     });
   }
 
@@ -260,6 +298,7 @@ export class CreateArticleComponent {
       template_id: new FormControl<null | number>(null),
       status: new FormControl<null | string>(null),
       article: new FormControl<null | string>(null),
+      seo_keywords: new FormControl<null | string>(null),
       product_titles: new FormArray<FormControl<null | string>>([
         new FormControl<null | string>(null, { validators }),
         new FormControl<null | string>(null, { validators }),
@@ -277,7 +316,21 @@ export class CreateArticleComponent {
       article_title3: new FormControl<null | string>(null),
       alt_text: new FormControl<null | string>(null),
       article_description: new FormControl<null | string>(null),
+      products: new FormArray<FormGroup<IProductItemForm>>([]),
+      seo_title: new FormControl<null | string>(null),
+      seo_description: new FormControl<null | string>(null),
+      seo_keywords: new FormControl<null | string>(null),
     });
+
+    const products = this.formResult.controls.products as FormArray;
+    for (let i = 0; i < 3; i++) {
+      const product = new FormGroup<IProductItemForm>({
+        title: new FormControl<null | string>(null),
+        description: new FormControl<null | string>(null),
+        alt_text: new FormControl<null | string>(null),
+      });
+      products.push(product);
+    }
   }
 
   private fetchArticleById() {
@@ -287,12 +340,34 @@ export class CreateArticleComponent {
       .getArticle(this.articleId)
       .pipe(
         tap((data) => (this.articleData = data)),
-        tap((data) => this.form?.patchValue(data)),
-        tap((data) => this.form?.patchValue(data.article_metadata)),
-        tap((data) => this.formResult?.patchValue(data)),
+        tap((data) => this.patchPageData(data)),
         catchError(() => this.alertService.error()),
       )
       .subscribe();
+  }
+
+  private patchPageData(data: IArticle) {
+    if (!this.form) return;
+
+    this.form.patchValue(data);
+    this.form.patchValue(data.article_metadata);
+    this.formResult?.patchValue({
+      ...data,
+      seo_description: data.seo.description,
+      seo_title: data.seo.title,
+      seo_keywords: data.seo.keywords,
+    });
+    const products = this.formResult?.controls.products as FormArray;
+    products.clear();
+
+    data.products_list.forEach((product) => {
+      const productForm = new FormGroup<IProductItemForm>({
+        title: new FormControl(product.title),
+        description: new FormControl(product.description),
+        alt_text: new FormControl(product.alt_text),
+      });
+      products.push(productForm);
+    });
   }
 
   private initValidation() {
