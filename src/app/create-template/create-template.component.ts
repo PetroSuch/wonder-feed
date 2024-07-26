@@ -22,6 +22,7 @@ import { LoadingComponent } from "../shared/components/loading/loading.component
 import { ActivatedRoute, Router } from "@angular/router";
 import { DashboardService } from "../shared/services/dashboard.service";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
+import { AutoResizeDirective } from "../shared/directives/auto-resize.directive";
 
 @Component({
   selector: "app-create-template",
@@ -32,6 +33,7 @@ import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
     NgbDropdownModule,
     ReactiveFormsModule,
     LoadingComponent,
+    AutoResizeDirective,
   ],
   templateUrl: "./create-template.component.html",
   styleUrl: "./create-template.component.scss",

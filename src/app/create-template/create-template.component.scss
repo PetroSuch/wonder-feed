@@ -98,7 +98,7 @@
 
     .article-content{
         height: calc(100vh - 85px);
-        overflow-y: auto;
+        overflow-y: hidden;
         width: calc(100% - 400px);
         border-right: 1px solid #DCDCDC;
         padding: 15px;
@@ -118,7 +118,15 @@
             box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.05);
             background-color: #FFFFFF;
             padding: 15px;
-            height: 400px;
+            height: calc(100vh - 220px);
+            overflow: hidden;
+
+            .tab-item{
+                top: 0;
+                overflow: auto;
+                padding: 15px;
+            }
+            
 
             .item{
                 display: flex;
