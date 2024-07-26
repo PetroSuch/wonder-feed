@@ -31,28 +31,28 @@
     <div class="article-content">
       <div class="tabs">
         <button
-          (click)="activeTab = 1"
+          (click)="openTab(1)"
           [ngClass]="{
             active: activeTab === 1,
-            invalid: showErrors && !isValidTitleTab,
+            invalid: showErrors && !isValidTab(form.controls.title_group),
           }"
         >
           Article Title
         </button>
         <button
-          (click)="activeTab = 2"
+          (click)="openTab(2)"
           [ngClass]="{
             active: activeTab === 2,
-            invalid: showErrors && !isValidDescriptionTab,
+            invalid: showErrors && !isValidTab(form.controls.description_group),
           }"
         >
           Description
         </button>
         <button
-          (click)="activeTab = 3"
+          (click)="openTab(3)"
           [ngClass]="{
             active: activeTab === 3,
-            invalid: showErrors && !isValidAltTextTab,
+            invalid: showErrors && !isValidTab(form.controls.alt_text_group),
           }"
         >
           Alt Text
@@ -60,236 +60,71 @@
       </div>
 
       <h4>
-        {{
-          activeTab === 1
-            ? "Article Title"
-            : activeTab === 2
-              ? "Description"
-              : "Alt Text"
-        }}
+        {{ tabTitle }}
       </h4>
 
       <div class="article-prompts tabs-wrapper">
         <div class="tab-item" [ngClass]="{ visible: activeTab === 1 }">
-          <div class="item">
-            <span class="title">Main Topic</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'title_main_topic'"
-                placeholder="Use Main Topic from the main title prompt"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Primary Keywords</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'title_primary_keywords'"
-                placeholder="Use Primary Keywords from the main title prompt and SEO section"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">SEO Rules</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'title_seo_rules'"
-                placeholder="Title should contain at least 3 - 4 keywords from SEO section"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Characters Limit</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'title_characters_limit'"
-                placeholder="60 - 80 characters"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Tone and Style</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'title_tone_style'"
-                placeholder="Formal, Lifestyle"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Power Words</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'title_power_words'"
-                placeholder="“Top”, “Best”, “Guide”, “Tips”, “Trends”, “How to”"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Examples of Perfect Titles</span>
-            <span class="value">
-              <textarea
-                class="form-control"
-                [formControlName]="'title_examples'"
-                rows="7"
-                placeholder="Smart Investing Strategies for 2024: Expert Tips Top Investment Tips for Building Wealth Financial Planning 101: Smart Investing Strategies Top Travel Destinations 2024: Must-Visit Places Best Places to Visit in 2024: Your Travel Guide Discover the Top Holiday Destinations for 2024 Top AI Trends Shaping the Future of Technology AI Trends 2024: Innovations to Watch Exploring the Latest AI Technology Trends and Applications"
-              ></textarea>
-            </span>
-          </div>
+          <ng-container
+            *ngTemplateOutlet="
+              groupForm;
+              context: { formGroup: form?.controls?.title_group }
+            "
+          ></ng-container>
         </div>
 
         <div class="tab-item" [ngClass]="{ visible: activeTab === 2 }">
-          <div class="item">
-            <span class="title">Main Topic</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'description_main_topic'"
-                placeholder="Use Main Topic from the main title prompt"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Primary Keywords</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'description_primary_keywords'"
-                placeholder="Use Primary Keywords from the main title prompt and SEO section"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">SEO Rules</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'description_seo_rules'"
-                placeholder="Title should contain at least 3 - 4 keywords from SEO section"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Characters Limit</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'description_characters_limit'"
-                placeholder="60 - 80 characters"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Tone and Style</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'description_tone_style'"
-                placeholder="Formal, Lifestyle"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Power Words</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'description_power_words'"
-                placeholder="“Top”, “Best”, “Guide”, “Tips”, “Trends”, “How to”"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Examples of Perfect Titles</span>
-            <span class="value">
-              <textarea
-                class="form-control"
-                [formControlName]="'description_examples'"
-                rows="7"
-                placeholder="Smart Investing Strategies for 2024: Expert Tips Top Investment Tips for Building Wealth Financial Planning 101: Smart Investing Strategies Top Travel Destinations 2024: Must-Visit Places Best Places to Visit in 2024: Your Travel Guide Discover the Top Holiday Destinations for 2024 Top AI Trends Shaping the Future of Technology AI Trends 2024: Innovations to Watch Exploring the Latest AI Technology Trends and Applications"
-              ></textarea>
-            </span>
-          </div>
+          <ng-container
+            *ngTemplateOutlet="
+              groupForm;
+              context: { formGroup: form?.controls?.description_group }
+            "
+          ></ng-container>
         </div>
 
         <div class="tab-item" [ngClass]="{ visible: activeTab === 3 }">
-          <div class="item">
-            <span class="title">Main Topic</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'alt_text_main_topic'"
-                placeholder="Use Main Topic from the main title prompt"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Primary Keywords</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'alt_text_primary_keywords'"
-                placeholder="Use Primary Keywords from the main title prompt and SEO section"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">SEO Rules</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'alt_text_seo_rules'"
-                placeholder="Title should contain at least 3 - 4 keywords from SEO section"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Characters Limit</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'alt_text_characters_limit'"
-                placeholder="60 - 80 characters"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Tone and Style</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'alt_text_tone_style'"
-                placeholder="Formal, Lifestyle"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Power Words</span>
-            <span class="value">
-              <input
-                class="form-control"
-                [formControlName]="'alt_text_power_words'"
-                placeholder="“Top”, “Best”, “Guide”, “Tips”, “Trends”, “How to”"
-              />
-            </span>
-          </div>
-          <div class="item">
-            <span class="title">Examples of Perfect Titles</span>
-            <span class="value">
-              <textarea
-                class="form-control"
-                [formControlName]="'alt_text_examples'"
-                rows="7"
-                placeholder="Smart Investing Strategies for 2024: Expert Tips Top Investment Tips for Building Wealth Financial Planning 101: Smart Investing Strategies Top Travel Destinations 2024: Must-Visit Places Best Places to Visit in 2024: Your Travel Guide Discover the Top Holiday Destinations for 2024 Top AI Trends Shaping the Future of Technology AI Trends 2024: Innovations to Watch Exploring the Latest AI Technology Trends and Applications"
-              ></textarea>
-            </span>
-          </div>
+          <ng-container
+            *ngTemplateOutlet="
+              groupForm;
+              context: { formGroup: form?.controls?.alt_text_group }
+            "
+          ></ng-container>
+        </div>
+
+        <div class="tab-item" [ngClass]="{ visible: activeTab === 4 }">
+          <ng-container
+            *ngTemplateOutlet="
+              groupForm;
+              context: { formGroup: form?.controls?.general_group }
+            "
+          ></ng-container>
+        </div>
+
+        <div class="tab-item" [ngClass]="{ visible: activeTab === 5 }">
+          <ng-container
+            *ngTemplateOutlet="
+              groupForm;
+              context: { formGroup: form?.controls?.product_section_group }
+            "
+          ></ng-container>
+        </div>
+
+        <div class="tab-item" [ngClass]="{ visible: activeTab === 6 }">
+          <ng-container
+            *ngTemplateOutlet="
+              groupForm;
+              context: { formGroup: form?.controls?.social_media_group }
+            "
+          ></ng-container>
+        </div>
+
+        <div class="tab-item" [ngClass]="{ visible: activeTab === 7 }">
+          <ng-container
+            *ngTemplateOutlet="
+              groupForm;
+              context: { formGroup: form?.controls?.seo_group }
+            "
+          ></ng-container>
         </div>
       </div>
     </div>
@@ -323,18 +158,6 @@
       </div>
 
       <div class="product-wrapper">
-        <div class="topic">
-          <div class="article-title">
-            <label>Specify the Topic</label>
-            <textarea
-              row="1"
-              [formControlName]="'specify_topic'"
-              class="form-control fixed-height"
-              placeholder="Clearly state the main subject of the article"
-            ></textarea>
-          </div>
-        </div>
-
         <div class="topic">
           <div class="article-title">
             <label>Define the Purpose</label>
@@ -382,19 +205,73 @@
             ></textarea>
           </div>
         </div>
-
-        <div class="topic">
-          <div class="article-title">
-            <label>SEO Requirements</label>
-            <textarea
-              row="1"
-              [formControlName]="'seo_requirements'"
-              class="form-control fixed-height"
-              placeholder="Identify the target audience"
-            ></textarea>
-          </div>
-        </div>
       </div>
     </div>
   </div>
 </div>
+
+<ng-template #groupForm let-group="formGroup">
+  <ng-container [formGroup]="group">
+    <div class="item">
+      <span class="title">Main Topic</span>
+      <span class="value">
+        <input
+          class="form-control"
+          [formControlName]="'field_main_topic'"
+          placeholder="Use Main Topic from the main title prompt"
+        />
+      </span>
+    </div>
+    <div class="item">
+      <span class="title">Primary Keywords</span>
+      <span class="value">
+        <input
+          class="form-control"
+          [formControlName]="'field_primary_keywords'"
+          placeholder="Use Primary Keywords from the main title prompt and SEO section"
+        />
+      </span>
+    </div>
+    <div class="item">
+      <span class="title">SEO Rules</span>
+      <span class="value">
+        <input
+          class="form-control"
+          [formControlName]="'field_seo_rules'"
+          placeholder="Title should contain at least 3 - 4 keywords from SEO section"
+        />
+      </span>
+    </div>
+    <div class="item">
+      <span class="title">Characters Limit</span>
+      <span class="value">
+        <input
+          class="form-control"
+          [formControlName]="'field_characters_limit'"
+          placeholder="60 - 80 characters"
+        />
+      </span>
+    </div>
+    <div class="item">
+      <span class="title">Power Words</span>
+      <span class="value">
+        <input
+          class="form-control"
+          [formControlName]="'field_power_words'"
+          placeholder="“Top”, “Best”, “Guide”, “Tips”, “Trends”, “How to”"
+        />
+      </span>
+    </div>
+    <div class="item">
+      <span class="title">Examples of Perfect Titles</span>
+      <span class="value">
+        <textarea
+          class="form-control"
+          [formControlName]="'field_examples'"
+          rows="7"
+          placeholder="Smart Investing Strategies for 2024: Expert Tips Top Investment Tips for Building Wealth Financial Planning 101: Smart Investing Strategies Top Travel Destinations 2024: Must-Visit Places Best Places to Visit in 2024: Your Travel Guide Discover the Top Holiday Destinations for 2024 Top AI Trends Shaping the Future of Technology AI Trends 2024: Innovations to Watch Exploring the Latest AI Technology Trends and Applications"
+        ></textarea>
+      </span>
+    </div>
+  </ng-container>
+</ng-template>

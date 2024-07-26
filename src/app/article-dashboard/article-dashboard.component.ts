@@ -19,6 +19,8 @@ import { DashboardService } from "../shared/services/dashboard.service";
   styleUrl: "./article-dashboard.component.scss",
 })
 export class ArticleDashboardComponent {
+  public activeTab: number = 0;
+
   public get activeTemplateId(): number {
     return +this.route.snapshot.firstChild?.params["templateId"];
   }
@@ -45,6 +47,15 @@ export class ArticleDashboardComponent {
 
   public onCreateArticle() {
     void this.router.navigate(["/", RoutesNames.Articles, RoutesNames.Create]);
+  }
+
+  public openTab(tab: number) {
+    this.activeTab = tab;
+    void this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { tab },
+      queryParamsHandling: "merge",
+    });
   }
 
   public createCategory() {

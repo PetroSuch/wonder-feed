@@ -3,11 +3,15 @@
     border-radius: 8px;
     &.show-errors{
         &:has(.ng-invalid){
-            input, textarea, label{
+
+            input, 
+            textarea, 
+            label{
                 color: #FF0000;  
 
                 &::placeholder{
                     color: #FF0000;
+                    font-weight: bold;
                 }
             }
         }

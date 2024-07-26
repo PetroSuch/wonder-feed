@@ -66,6 +66,20 @@
             src="images/icons/trash.png"
           />
         </li>
+        <ul>
+          <li [ngClass]="{ active: activeTab === 4 }" (click)="openTab(4)">
+            General Section
+          </li>
+          <li [ngClass]="{ active: activeTab === 5 }" (click)="openTab(5)">
+            Product Section
+          </li>
+          <li [ngClass]="{ active: activeTab === 6 }" (click)="openTab(6)">
+            Social Media
+          </li>
+          <li [ngClass]="{ active: activeTab === 7 }" (click)="openTab(7)">
+            SEO Section
+          </li>
+        </ul>
       }
       <li (click)="createTemplate()" class="add-btn">
         <span>+ Add Template</span>
