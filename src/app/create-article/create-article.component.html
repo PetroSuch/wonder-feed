@@ -163,7 +163,14 @@
                           class="form-control"
                           placeholder="Enter article title"
                         ></textarea>
-                        <img src="images/icons/refresh.png" />
+                        <img
+                          [ngClass]="{
+                            spin:
+                              regeneratingTitleKey === 'article_description',
+                          }"
+                          (click)="onRegenerateTitle('article_description')"
+                          src="images/icons/refresh.png"
+                        />
                         <img src="images/icons/copy.png" />
                       </div>
                     </div>
@@ -192,7 +199,13 @@
                           class="form-control fixed-height"
                           placeholder="Enter article title"
                         ></textarea>
-                        <img src="images/icons/refresh.png" />
+                        <img
+                          [ngClass]="{
+                            spin: regeneratingTitleKey === 'alt_text',
+                          }"
+                          (click)="onRegenerateTitle('alt_text')"
+                          src="images/icons/refresh.png"
+                        />
                         <img src="images/icons/copy.png" />
                       </div>
                     </div>
@@ -207,7 +220,11 @@
           [ngClass]="{ visible: activeTab === 2 }"
           *ngIf="formResult.controls.products.controls as products"
         >
-          <div ngbAccordion class="mt-2" *ngFor="let product of products">
+          <div
+            ngbAccordion
+            class="mt-2"
+            *ngFor="let product of products; let index = index"
+          >
             <div ngbAccordionItem [collapsed]="false">
               <h2 ngbAccordionHeader>
                 <button ngbAccordionButton>
@@ -228,9 +245,12 @@
                         ></textarea>
                         <img
                           [ngClass]="{
-                            spin: regeneratingTitleKey === 'article_title1',
+                            spin: regeneratingTitleKey === 'title_' + index,
                           }"
-                          (click)="onRegenerateTitle('article_title1')"
+                          (click)="
+                            onRegenerateTitle(null, product.controls.title);
+                            regeneratingTitleKey = 'title_' + index
+                          "
                           src="images/icons/refresh.png"
                         />
                         <img
@@ -292,8 +312,9 @@
                         ></textarea>
                         <img
                           [ngClass]="{
-                            spin: regeneratingTitleKey === 'article_title3',
+                            spin: regeneratingTitleKey === 'seo_title',
                           }"
+                          (click)="onRegenerateTitle('seo_title')"
                           src="images/icons/refresh.png"
                         />
                         <img
@@ -387,6 +408,12 @@
             <div class="item">
               <span class="title">Status</span>
               <span class="value">
+                <!-- <mat-form-field>
+                  <mat-select [formControlName]="'status'">
+                    <mat-option [value]="1">In progress</mat-option>
+                  </mat-select>
+                </mat-form-field> -->
+
                 <select [formControlName]="'status'" class="form-select status">
                   <option value="1">In progress</option>
                 </select>

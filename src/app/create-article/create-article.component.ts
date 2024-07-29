@@ -37,7 +37,9 @@ import { LoadingComponent } from "../shared/components/loading/loading.component
 import { ArticleService } from "../shared/services/article.service";
 import { ActivatedRoute } from "@angular/router";
 import { DashboardService } from "../shared/services/dashboard.service";
-
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
+import { MatFormFieldModule } from "@angular/material/form-field";
 @Component({
   selector: "app-create-article",
   standalone: true,
@@ -50,6 +52,9 @@ import { DashboardService } from "../shared/services/dashboard.service";
     CdkDrag,
     LoadingComponent,
     ReactiveFormsModule,
+    MatInputModule,
+    MatSelectModule,
+    MatFormFieldModule,
   ],
   templateUrl: "./create-article.component.html",
   styleUrl: "./create-article.component.scss",
@@ -204,7 +209,10 @@ export class CreateArticleComponent {
       .subscribe();
   }
 
-  public onRegenerateTitle(controlName: string) {
+  public onRegenerateTitle(
+    controlName: string | null,
+    controlField?: FormControl | null,
+  ) {
     if (
       !this.formResult ||
       !this.form ||
@@ -213,20 +221,20 @@ export class CreateArticleComponent {
       return;
     }
 
-    const control = this.formResult.get(controlName);
+    const control = controlField || this.formResult.get(controlName!);
     const currentTitle = control?.value as string;
 
     const value = this.form.value;
     const data: IRegenerateTitle = {
       template_id: 1,
-      article_title1: value.article!,
+      article: value.article!,
       product_titles: value.product_titles as string[],
       title_regenerate: currentTitle,
       seo_keywords: value.seo_keywords!,
     };
     const errMsg = "Something went wrong. Please try again later.";
 
-    this.regeneratingTitleKey = controlName;
+    this.regeneratingTitleKey = controlName!;
 
     this.articleService
       .regenerateTitle(data)

@@ -1,4 +1,6 @@
 @import 'bootstrap/scss/bootstrap';
+// import angular material theme
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import './styles/variables.scss';
 @import './styles/buttons.scss';
 @import './styles/alerts.scss';

@@ -103,7 +103,7 @@ export interface IGenerateSEO {
 
 export interface IRegenerateTitle {
   template_id: number;
-  article_title1: string;
+  article: string;
   product_titles: string[];
   title_regenerate: string;
   seo_keywords: string;

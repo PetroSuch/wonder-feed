@@ -21,7 +21,7 @@ export class ArticleService extends HttpService {
 
   public regenerateTitle(data: IRegenerateTitle) {
     return this.post<IRegenerateTitle, IRegenerateTitleResponse>(
-      "regenerate_title",
+      "regenerate/title",
       data,
     );
   }
