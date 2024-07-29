@@ -4,7 +4,7 @@ import { CategoryService } from "../shared/services/category.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { CategoryPopupComponent } from "../shared/components/category-popup/category-popup.component";
 import { ICategory } from "../shared/interfaces/category.interfaces";
-import { filter, first, tap } from "rxjs";
+import { filter, tap } from "rxjs";
 import { TemplateService } from "../shared/services/template.service";
 import { ITemplate } from "../shared/interfaces/template.interface";
 import { RoutesNames } from "../shared/enums/routes.enum";
@@ -20,6 +20,7 @@ import { DashboardService } from "../shared/services/dashboard.service";
 })
 export class ArticleDashboardComponent {
   public activeTab: number = 0;
+  public addNewTemplate: boolean = false;
 
   public get activeTemplateId(): number {
     return +this.route.snapshot.firstChild?.params["templateId"];
@@ -39,13 +40,22 @@ export class ArticleDashboardComponent {
   ) {
     this.dashboardService.fetchTemplates();
     this.dashboardService.fetchCategories();
+
+    if (
+      !this.activeTemplateId &&
+      location.pathname.includes(RoutesNames.Template)
+    ) {
+      this.addNewTemplate = true;
+    }
   }
 
   public openCategory(category: ICategory) {
+    this.addNewTemplate = false;
     void this.router.navigate(["/", RoutesNames.Articles, category.id]);
   }
 
   public onCreateArticle() {
+    this.addNewTemplate = false;
     void this.router.navigate(["/", RoutesNames.Articles, RoutesNames.Create]);
   }
 
@@ -70,6 +80,7 @@ export class ArticleDashboardComponent {
 
   public updateCategory(e: Event, category: ICategory) {
     e.stopPropagation();
+    this.addNewTemplate = false;
     const modalRef = this.modalService.open(CategoryPopupComponent);
     const component = modalRef.componentInstance as CategoryPopupComponent;
     component.categoryId = category.id;
@@ -96,6 +107,7 @@ export class ArticleDashboardComponent {
 
   public updateTemplate(e: Event, template: ITemplate) {
     e.stopPropagation();
+    this.addNewTemplate = false;
     void this.router.navigate([
       "/",
       RoutesNames.Articles,
@@ -110,12 +122,13 @@ export class ArticleDashboardComponent {
     e.stopPropagation();
 
     this.templateService
-      .deleteTemplate(template.id)
+      .deleteTemplate(template.id!)
       .pipe(tap(() => this.dashboardService.fetchTemplates()))
       .subscribe();
   }
 
   public createTemplate() {
+    this.addNewTemplate = true;
     void this.router.navigate([
       "/",
       RoutesNames.Articles,

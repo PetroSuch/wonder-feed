@@ -139,10 +139,10 @@ export class CreateTemplateComponent {
     if (this.templateId) {
       api$ = this.templateService.updateTemplate(
         this.templateId,
-        this.form.value as ITemplate,
+        this.mapFormToTemplate(),
       );
     } else {
-      api$ = this.templateService.createTemplate(this.form.value as ITemplate);
+      api$ = this.templateService.createTemplate(this.mapFormToTemplate());
     }
 
     api$
@@ -153,6 +153,79 @@ export class CreateTemplateComponent {
         finalize(() => (this.isSaving = false)),
       )
       .subscribe();
+  }
+
+  private mapFormToTemplate(): ITemplate {
+    const formValue = this.form?.value;
+    if (!formValue) return {} as ITemplate;
+    const {
+      general_group,
+      alt_text_group,
+      title_group,
+      product_section_group,
+      description_group,
+      social_media_group,
+      seo_group,
+    } = formValue;
+
+    return {
+      status: formValue.status!,
+      template_name: formValue.template_name!,
+      specify_topic: title_group!.field_main_topic!,
+      define_purpose: formValue.define_purpose!,
+      audience: formValue.audience!,
+      tone_style: formValue.tone_style!,
+      additional_requirements: formValue.additional_requirements!,
+      title_main_topic: title_group!.field_main_topic!,
+      title_primary_keywords: title_group!.field_primary_keywords!,
+      title_seo_rules: title_group!.field_seo_rules!,
+      title_characters_limit: title_group!.field_characters_limit!,
+      title_tone_style: title_group!.field_power_words!,
+      title_power_words: title_group!.field_power_words!,
+      title_examples: title_group!.field_examples!,
+      description_main_topic: description_group!.field_main_topic!,
+      description_primary_keywords: description_group!.field_primary_keywords!,
+      description_seo_rules: description_group!.field_seo_rules!,
+      description_characters_limit: description_group!.field_characters_limit!,
+      description_tone_style: description_group!.field_power_words!,
+      description_power_words: description_group!.field_power_words!,
+      description_examples: description_group!.field_examples!,
+      alt_text_main_topic: alt_text_group!.field_main_topic!,
+      alt_text_primary_keywords: alt_text_group!.field_primary_keywords!,
+      alt_text_seo_rules: alt_text_group!.field_seo_rules!,
+      alt_text_characters_limit: alt_text_group!.field_characters_limit!,
+      alt_text_tone_style: alt_text_group!.field_power_words!,
+      alt_text_power_words: alt_text_group!.field_power_words!,
+      alt_text_examples: alt_text_group!.field_examples!,
+      general_main_topic: general_group!.field_main_topic!,
+      general_primary_keywords: general_group!.field_primary_keywords!,
+      general_seo_rules: general_group!.field_seo_rules!,
+      general_characters_limit: general_group!.field_characters_limit!,
+      general_power_words: general_group!.field_power_words!,
+      general_examples: general_group!.field_examples!,
+      product_section_main_topic: product_section_group!.field_main_topic!,
+      product_section_primary_keywords:
+        product_section_group!.field_primary_keywords!,
+      product_section_seo_rules: product_section_group!.field_seo_rules!,
+      product_section_characters_limit:
+        product_section_group!.field_characters_limit!,
+      product_section_power_words: product_section_group!.field_power_words!,
+      product_section_examples: product_section_group!.field_examples!,
+      social_media_main_topic: social_media_group!.field_main_topic!,
+      social_media_primary_keywords:
+        social_media_group!.field_primary_keywords!,
+      social_media_seo_rules: social_media_group!.field_seo_rules!,
+      social_media_characters_limit:
+        social_media_group!.field_characters_limit!,
+      social_media_power_words: social_media_group!.field_power_words!,
+      social_media_examples: social_media_group!.field_examples!,
+      seo_main_topic: seo_group!.field_main_topic!,
+      seo_primary_keywords: seo_group!.field_primary_keywords!,
+      seo_seo_rules: seo_group!.field_seo_rules!,
+      seo_characters_limit: seo_group!.field_characters_limit!,
+      seo_power_words: seo_group!.field_power_words!,
+      seo_examples: seo_group!.field_examples!,
+    };
   }
 
   private displayInvalidTabs() {
@@ -340,6 +413,10 @@ export class CreateTemplateComponent {
         field_seo_rules: new FormControl(null),
         field_examples: new FormControl(null),
       }),
+    });
+
+    this.form.valueChanges.subscribe(() => {
+      console.log(this.form?.value);
     });
   }
 

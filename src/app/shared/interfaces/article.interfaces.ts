@@ -78,6 +78,7 @@ export interface IGenerateArticleResponse {
   seo: IGenerateSEO;
   general: IGenerateGeneral;
   products_list: IGenerateProduct[];
+  social: IGenerateSEO;
 }
 
 export interface IGenerateGeneral {
