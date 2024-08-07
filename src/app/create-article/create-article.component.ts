@@ -277,26 +277,26 @@ export class CreateArticleComponent {
     if (!this.formResult) return;
 
     this.formResult.patchValue({
-      article_title1: data.general.title1,
-      article_title2: data.general.title2,
-      article_title3: data.general.title3,
+      article_title1: data.general.titles.title1,
+      article_title2: data.general.titles.title2,
+      article_title3: data.general.titles.title3,
       alt_text: data.general.alt_text,
       article_description: data.general.article_description,
-      seo_title: data.seo.title,
-      seo_description: data.seo.description,
-      seo_keywords: data.seo.keywords,
+      // seo_title: data.seo.title,
+      // seo_description: data.seo.description,
+      // seo_keywords: data.seo.keywords,
     });
 
-    const products = this.formResult.controls.products as FormArray;
-    products.clear();
-    data.products_list.forEach((product) => {
-      const productForm = new FormGroup<IProductItemForm>({
-        title: new FormControl(product.title),
-        description: new FormControl(product.description),
-        alt_text: new FormControl(product.alt_text),
-      });
-      products.push(productForm);
-    });
+    // const products = this.formResult.controls.products as FormArray;
+    // products.clear();
+    // data.products_list.forEach((product) => {
+    //   const productForm = new FormGroup<IProductItemForm>({
+    //     title: new FormControl(product.title),
+    //     description: new FormControl(product.description),
+    //     alt_text: new FormControl(product.alt_text),
+    //   });
+    //   products.push(productForm);
+    // });
   }
 
   private initForm() {
@@ -312,10 +312,6 @@ export class CreateArticleComponent {
         new FormControl<null | string>(null, { validators }),
         new FormControl<null | string>(null, { validators }),
       ]),
-    });
-
-    this.form.valueChanges.subscribe((v) => {
-      console.log(v);
     });
 
     this.formResult = new FormGroup<IGenerateResultForm>({

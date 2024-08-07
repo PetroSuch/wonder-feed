@@ -414,7 +414,6 @@ export class CreateTemplateComponent {
   }
 
   private patchForm(data: ITemplate) {
-    console.log(data);
     if (!this.form) return;
     this.form.patchValue(data);
     const {

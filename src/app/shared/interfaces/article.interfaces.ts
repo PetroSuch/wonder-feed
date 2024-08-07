@@ -75,10 +75,16 @@ export interface IGenerateArticle {
 }
 
 export interface IGenerateArticleResponse {
-  seo: IGenerateSEO;
-  general: IGenerateGeneral;
+  general: {
+    alt_text: string;
+    article_description: string;
+    titles: {
+      title1: string;
+      title2: string;
+      title3: string;
+    };
+  };
   products_list: IGenerateProduct[];
-  social: IGenerateSEO;
 }
 
 export interface IGenerateGeneral {
