@@ -5,7 +5,10 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { CommonModule } from "@angular/common";
 import {
+  IGeneralFormGroup,
   INewTemplateForm,
+  IProductFormGroup,
+  ISeoFormGroup,
   ITemplate,
   ITemplateGroup,
 } from "../shared/interfaces/template.interface";
@@ -43,6 +46,7 @@ export class CreateTemplateComponent {
   public isSaving: boolean = false;
   public showErrors: boolean = false;
   public activeTab: number = 1;
+  public activeSubTab: number = 1;
   private templateId: number | null = null;
   private templateData: ITemplate | null = null;
   private readonly destroyRef = inject(DestroyRef);
@@ -56,18 +60,12 @@ export class CreateTemplateComponent {
   public get tabTitle(): string {
     switch (this.activeTab) {
       case 1:
-        return "Article Title";
-      case 2:
-        return "Description";
-      case 3:
-        return "Alt Text";
-      case 4:
         return "General Section";
-      case 5:
+      case 2:
         return "Product Section";
-      case 6:
+      case 3:
         return "Social Media";
-      case 7:
+      case 4:
         return "SEO Section";
       default:
         return "";
@@ -83,6 +81,8 @@ export class CreateTemplateComponent {
   ) {
     this.initTemplateForm();
     this.initValidation();
+    this.testPatch();
+    this.activeSubTab = +this.route.snapshot.queryParams["subTab"] || 1;
 
     this.route.queryParams
       .pipe(
@@ -105,7 +105,7 @@ export class CreateTemplateComponent {
     }
   }
 
-  public isValidTab(formGroup: FormGroup<ITemplateGroup>) {
+  public isValidTab(formGroup: FormGroup<ITemplateGroup> | null) {
     if (!formGroup) return false;
     const controls = formGroup.controls;
     return [
@@ -119,11 +119,94 @@ export class CreateTemplateComponent {
   }
 
   public openTab(tab: number) {
-    this.activeTab = tab;
+    this.activeSubTab = tab;
     void this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { tab },
+      queryParams: { subTab: this.activeSubTab },
       queryParamsHandling: "merge",
+    });
+  }
+
+  private testPatch() {
+    this.form?.patchValue({
+      general_group: {
+        general_article_group: {
+          field_characters_limit: "100",
+          field_main_topic: "Test",
+          field_power_words: "Test",
+          field_primary_keywords: "Test",
+          field_seo_rules: "Test",
+          field_examples: "Test",
+        },
+        general_description_group: {
+          field_characters_limit: "100",
+          field_main_topic: "Test",
+          field_power_words: "Test",
+          field_primary_keywords: "Test",
+          field_seo_rules: "Test",
+          field_examples: "Test",
+        },
+        general_alt_text_group: {
+          field_characters_limit: "100",
+          field_main_topic: "Test",
+          field_power_words: "Test",
+          field_primary_keywords: "Test",
+          field_seo_rules: "Test",
+          field_examples: "Test",
+        },
+      },
+      product_group: {
+        product_article_group: {
+          field_characters_limit: "100",
+          field_main_topic: "Test",
+          field_power_words: "Test",
+          field_primary_keywords: "Test",
+          field_seo_rules: "Test",
+          field_examples: "Test",
+        },
+        product_description_group: {
+          field_characters_limit: "100",
+          field_main_topic: "Test",
+          field_power_words: "Test",
+          field_primary_keywords: "Test",
+          field_seo_rules: "Test",
+          field_examples: "Test",
+        },
+        product_alt_text_group: {
+          field_characters_limit: "100",
+          field_main_topic: "Test",
+          field_power_words: "Test",
+          field_primary_keywords: "Test",
+          field_seo_rules: "Test",
+          field_examples: "Test",
+        },
+      },
+      seo_group: {
+        seo_title_group: {
+          field_characters_limit: "100",
+          field_main_topic: "Test",
+          field_power_words: "Test",
+          field_primary_keywords: "Test",
+          field_seo_rules: "Test",
+          field_examples: "Test",
+        },
+        seo_description_group: {
+          field_characters_limit: "100",
+          field_main_topic: "Test",
+          field_power_words: "Test",
+          field_primary_keywords: "Test",
+          field_seo_rules: "Test",
+          field_examples: "Test",
+        },
+        seo_keywords_group: {
+          field_characters_limit: "100",
+          field_main_topic: "Test",
+          field_power_words: "Test",
+          field_primary_keywords: "Test",
+          field_seo_rules: "Test",
+          field_examples: "Test",
+        },
+      },
     });
   }
 
@@ -158,107 +241,137 @@ export class CreateTemplateComponent {
   private mapFormToTemplate(): ITemplate {
     const formValue = this.form?.value;
     if (!formValue) return {} as ITemplate;
-    const {
-      general_group,
-      alt_text_group,
-      title_group,
-      product_section_group,
-      description_group,
-      social_media_group,
-      seo_group,
-    } = formValue;
+    const { general_group, product_group, seo_group } = formValue;
+    const generalArticleGroup = general_group!.general_article_group;
+    const generalDescriptionGroup = general_group!.general_description_group;
+    const generalAltTextGroup = general_group!.general_alt_text_group;
+    const productArticleGroup = product_group!.product_article_group;
+    const productDescriptionGroup = product_group!.product_description_group;
+    const productAltTextGroup = product_group!.product_alt_text_group;
+    const seoMetaTitleGroup = seo_group!.seo_title_group;
+    const seoMetaDescrGroup = seo_group!.seo_description_group;
+    const seoMetaKeywordsGroup = seo_group!.seo_keywords_group;
 
     return {
       status: formValue.status!,
       template_name: formValue.template_name!,
-      specify_topic: title_group!.field_main_topic!,
       define_purpose: formValue.define_purpose!,
       audience: formValue.audience!,
       tone_style: formValue.tone_style!,
       additional_requirements: formValue.additional_requirements!,
-      title_main_topic: title_group!.field_main_topic!,
-      title_primary_keywords: title_group!.field_primary_keywords!,
-      title_seo_rules: title_group!.field_seo_rules!,
-      title_characters_limit: title_group!.field_characters_limit!,
-      title_tone_style: title_group!.field_power_words!,
-      title_power_words: title_group!.field_power_words!,
-      title_examples: title_group!.field_examples!,
-      description_main_topic: description_group!.field_main_topic!,
-      description_primary_keywords: description_group!.field_primary_keywords!,
-      description_seo_rules: description_group!.field_seo_rules!,
-      description_characters_limit: description_group!.field_characters_limit!,
-      description_tone_style: description_group!.field_power_words!,
-      description_power_words: description_group!.field_power_words!,
-      description_examples: description_group!.field_examples!,
-      alt_text_main_topic: alt_text_group!.field_main_topic!,
-      alt_text_primary_keywords: alt_text_group!.field_primary_keywords!,
-      alt_text_seo_rules: alt_text_group!.field_seo_rules!,
-      alt_text_characters_limit: alt_text_group!.field_characters_limit!,
-      alt_text_tone_style: alt_text_group!.field_power_words!,
-      alt_text_power_words: alt_text_group!.field_power_words!,
-      alt_text_examples: alt_text_group!.field_examples!,
-      general_main_topic: general_group!.field_main_topic!,
-      general_primary_keywords: general_group!.field_primary_keywords!,
-      general_seo_rules: general_group!.field_seo_rules!,
-      general_characters_limit: general_group!.field_characters_limit!,
-      general_power_words: general_group!.field_power_words!,
-      general_examples: general_group!.field_examples!,
-      product_section_main_topic: product_section_group!.field_main_topic!,
-      product_section_primary_keywords:
-        product_section_group!.field_primary_keywords!,
-      product_section_seo_rules: product_section_group!.field_seo_rules!,
-      product_section_characters_limit:
-        product_section_group!.field_characters_limit!,
-      product_section_power_words: product_section_group!.field_power_words!,
-      product_section_examples: product_section_group!.field_examples!,
-      social_media_main_topic: social_media_group!.field_main_topic!,
-      social_media_primary_keywords:
-        social_media_group!.field_primary_keywords!,
-      social_media_seo_rules: social_media_group!.field_seo_rules!,
-      social_media_characters_limit:
-        social_media_group!.field_characters_limit!,
-      social_media_power_words: social_media_group!.field_power_words!,
-      social_media_examples: social_media_group!.field_examples!,
-      seo_main_topic: seo_group!.field_main_topic!,
-      seo_primary_keywords: seo_group!.field_primary_keywords!,
-      seo_seo_rules: seo_group!.field_seo_rules!,
-      seo_characters_limit: seo_group!.field_characters_limit!,
-      seo_power_words: seo_group!.field_power_words!,
-      seo_examples: seo_group!.field_examples!,
+      general_group: {
+        general_article_group: {
+          field_characters_limit: generalArticleGroup!.field_characters_limit!,
+          field_main_topic: generalArticleGroup!.field_main_topic!,
+          field_power_words: generalArticleGroup!.field_power_words!,
+          field_primary_keywords: generalArticleGroup!.field_primary_keywords!,
+          field_seo_rules: generalArticleGroup!.field_seo_rules!,
+          field_examples: generalArticleGroup!.field_examples!,
+        },
+        general_alt_text_group: {
+          field_characters_limit: generalAltTextGroup!.field_characters_limit!,
+          field_main_topic: generalAltTextGroup!.field_main_topic!,
+          field_power_words: generalAltTextGroup!.field_power_words!,
+          field_primary_keywords: generalAltTextGroup!.field_primary_keywords!,
+          field_seo_rules: generalAltTextGroup!.field_seo_rules!,
+          field_examples: generalAltTextGroup!.field_examples!,
+        },
+        general_description_group: {
+          field_characters_limit:
+            generalDescriptionGroup!.field_characters_limit!,
+          field_main_topic: generalDescriptionGroup!.field_main_topic!,
+          field_power_words: generalDescriptionGroup!.field_power_words!,
+          field_primary_keywords:
+            generalDescriptionGroup!.field_primary_keywords!,
+          field_seo_rules: generalDescriptionGroup!.field_seo_rules!,
+          field_examples: generalDescriptionGroup!.field_examples!,
+        },
+      },
+
+      product_group: {
+        product_article_group: {
+          field_characters_limit: productArticleGroup!.field_characters_limit!,
+          field_main_topic: productArticleGroup!.field_main_topic!,
+          field_power_words: productArticleGroup!.field_power_words!,
+          field_primary_keywords: productArticleGroup!.field_primary_keywords!,
+          field_seo_rules: productArticleGroup!.field_seo_rules!,
+          field_examples: productArticleGroup!.field_examples!,
+        },
+        product_alt_text_group: {
+          field_characters_limit: productAltTextGroup!.field_characters_limit!,
+          field_main_topic: productAltTextGroup!.field_main_topic!,
+          field_power_words: productAltTextGroup!.field_power_words!,
+          field_primary_keywords: productAltTextGroup!.field_primary_keywords!,
+          field_seo_rules: productAltTextGroup!.field_seo_rules!,
+          field_examples: productAltTextGroup!.field_examples!,
+        },
+        product_description_group: {
+          field_characters_limit:
+            productDescriptionGroup!.field_characters_limit!,
+          field_main_topic: productDescriptionGroup!.field_main_topic!,
+          field_power_words: productDescriptionGroup!.field_power_words!,
+          field_primary_keywords:
+            productDescriptionGroup!.field_primary_keywords!,
+          field_seo_rules: productDescriptionGroup!.field_seo_rules!,
+          field_examples: productDescriptionGroup!.field_examples!,
+        },
+      },
+      seo_group: {
+        seo_title_group: {
+          field_characters_limit: seoMetaTitleGroup!.field_characters_limit!,
+          field_main_topic: seoMetaTitleGroup!.field_main_topic!,
+          field_power_words: seoMetaTitleGroup!.field_power_words!,
+          field_primary_keywords: seoMetaTitleGroup!.field_primary_keywords!,
+          field_seo_rules: seoMetaTitleGroup!.field_seo_rules!,
+          field_examples: seoMetaTitleGroup!.field_examples!,
+        },
+        seo_description_group: {
+          field_characters_limit: seoMetaDescrGroup!.field_characters_limit!,
+          field_main_topic: seoMetaDescrGroup!.field_main_topic!,
+          field_power_words: seoMetaDescrGroup!.field_power_words!,
+          field_primary_keywords: seoMetaDescrGroup!.field_primary_keywords!,
+          field_seo_rules: seoMetaDescrGroup!.field_seo_rules!,
+          field_examples: seoMetaDescrGroup!.field_examples!,
+        },
+        seo_keywords_group: {
+          field_characters_limit: seoMetaKeywordsGroup!.field_characters_limit!,
+          field_main_topic: seoMetaKeywordsGroup!.field_main_topic!,
+          field_power_words: seoMetaKeywordsGroup!.field_power_words!,
+          field_primary_keywords: seoMetaKeywordsGroup!.field_primary_keywords!,
+          field_seo_rules: seoMetaKeywordsGroup!.field_seo_rules!,
+          field_examples: seoMetaKeywordsGroup!.field_examples!,
+        },
+      },
     };
   }
 
   private displayInvalidTabs() {
     if (!this.form) return;
     const invalidTabs = [];
-    const {
-      title_group,
-      description_group,
-      alt_text_group,
-      general_group,
-      product_section_group,
-      seo_group,
-    } = this.form.controls;
-    if (!this.isValidTab(title_group)) {
-      invalidTabs.push("Article Title");
+    const { general_group, product_group } = this.form.controls;
+    const generalArticleGroup = general_group.controls.general_article_group;
+    const generalDescriptionGroup =
+      general_group.controls.general_description_group;
+    const generalAltTextGroup = general_group.controls.general_alt_text_group;
+    const productArticleGroup = product_group.controls.product_article_group;
+    const productDescriptionGroup =
+      product_group.controls.product_description_group;
+    const productAltTextGroup = product_group.controls.product_alt_text_group;
+
+    if (
+      !this.isValidTab(generalArticleGroup) ||
+      !this.isValidTab(generalAltTextGroup) ||
+      !this.isValidTab(generalDescriptionGroup)
+    ) {
+      invalidTabs.push("General Article");
     }
-    if (!this.isValidTab(description_group)) {
-      invalidTabs.push("Description");
-    }
-    if (!this.isValidTab(alt_text_group)) {
-      invalidTabs.push("Alt Text");
-    }
-    if (!this.isValidTab(general_group)) {
-      invalidTabs.push("General Section");
-    }
-    if (!this.isValidTab(product_section_group)) {
-      invalidTabs.push("Product Section");
-    }
-    // if (!this.isValidTab(social_media_group as FormGroup<ITemplateGroup>)) {
-    //   invalidTabs.push("Social Media");
-    // }
-    if (!this.isValidTab(seo_group)) {
-      invalidTabs.push("SEO Section");
+
+    if (
+      !this.isValidTab(productArticleGroup) ||
+      !this.isValidTab(productAltTextGroup) ||
+      !this.isValidTab(productDescriptionGroup)
+    ) {
+      invalidTabs.push("Product Article");
     }
 
     if (invalidTabs.length) {
@@ -270,82 +383,77 @@ export class CreateTemplateComponent {
   }
 
   private patchForm(data: ITemplate) {
+    console.log(data);
     this.form?.patchValue(data);
+    const { general_group, product_group, seo_group } = data;
+    const generalArticleGroup = general_group.general_article_group;
+    const generalDescriptionGroup = general_group.general_description_group;
+    const generalAltTextGroup = general_group.general_alt_text_group;
+    const productArticleGroup = product_group.product_article_group;
+    const productDescriptionGroup = product_group.product_description_group;
+    const productAltTextGroup = product_group.product_alt_text_group;
+    const seoMetaTitleGroup = seo_group.seo_title_group;
+    const seoMetaDescrGroup = seo_group.seo_description_group;
+    const seoMetaKeywordsGroup = seo_group.seo_keywords_group;
 
-    const altTextGroup = this.form?.controls
-      .alt_text_group as FormGroup<ITemplateGroup>;
-    altTextGroup.patchValue({
-      field_characters_limit: data.alt_text_characters_limit,
-      field_main_topic: data.alt_text_main_topic,
-      field_power_words: data.alt_text_power_words,
-      field_primary_keywords: data.alt_text_primary_keywords,
-      field_seo_rules: data.alt_text_seo_rules,
-      field_examples: data.alt_text_examples,
-    });
+    this.form?.patchValue({
+      general_group: {
+        general_article_group: {
+          field_characters_limit: generalArticleGroup.field_characters_limit,
+          field_main_topic: generalArticleGroup.field_main_topic,
+          field_power_words: generalArticleGroup.field_power_words,
+          field_primary_keywords: generalArticleGroup.field_primary_keywords,
+          field_seo_rules: generalArticleGroup.field_seo_rules,
+          field_examples: generalArticleGroup.field_examples,
+        },
+        general_alt_text_group: {
+          field_characters_limit: generalAltTextGroup.field_characters_limit,
+          field_main_topic: generalAltTextGroup.field_main_topic,
+          field_power_words: generalAltTextGroup.field_power_words,
+          field_primary_keywords: generalAltTextGroup.field_primary_keywords,
+          field_seo_rules: generalAltTextGroup.field_seo_rules,
+          field_examples: generalAltTextGroup.field_examples,
+        },
+        general_description_group: {
+          field_characters_limit:
+            generalDescriptionGroup.field_characters_limit,
+          field_main_topic: generalDescriptionGroup.field_main_topic,
+          field_power_words: generalDescriptionGroup.field_power_words,
+          field_primary_keywords:
+            generalDescriptionGroup.field_primary_keywords,
+          field_seo_rules: generalDescriptionGroup.field_seo_rules,
+          field_examples: generalDescriptionGroup.field_examples,
+        },
+      },
 
-    const descriptionGroup = this.form?.controls
-      .description_group as FormGroup<ITemplateGroup>;
-    descriptionGroup.patchValue({
-      field_characters_limit: data.description_characters_limit,
-      field_main_topic: data.description_main_topic,
-      field_power_words: data.description_power_words,
-      field_primary_keywords: data.description_primary_keywords,
-      field_seo_rules: data.description_seo_rules,
-      field_examples: data.description_examples,
-    });
-
-    const generalGroup = this.form?.controls
-      .general_group as FormGroup<ITemplateGroup>;
-    generalGroup.patchValue({
-      field_characters_limit: data.description_characters_limit,
-      field_main_topic: data.description_main_topic,
-      field_power_words: data.description_power_words,
-      field_primary_keywords: data.description_primary_keywords,
-      field_seo_rules: data.description_seo_rules,
-      field_examples: data.description_examples,
-    });
-
-    const productSectionGroup = this.form?.controls
-      .product_section_group as FormGroup<ITemplateGroup>;
-    productSectionGroup.patchValue({
-      field_characters_limit: data.product_section_characters_limit,
-      field_main_topic: data.product_section_main_topic,
-      field_power_words: data.product_section_power_words,
-      field_primary_keywords: data.product_section_primary_keywords,
-      field_seo_rules: data.product_section_seo_rules,
-      field_examples: data.product_section_examples,
-    });
-
-    const seoGroup = this.form?.controls.seo_group as FormGroup<ITemplateGroup>;
-    seoGroup.patchValue({
-      field_characters_limit: data.seo_characters_limit,
-      field_main_topic: data.seo_main_topic,
-      field_power_words: data.seo_power_words,
-      field_primary_keywords: data.seo_primary_keywords,
-      field_seo_rules: data.seo_seo_rules,
-      field_examples: data.seo_examples,
-    });
-
-    const socialMediaGroup = this.form?.controls
-      .social_media_group as FormGroup<ITemplateGroup>;
-    socialMediaGroup.patchValue({
-      field_characters_limit: data.social_media_characters_limit,
-      field_main_topic: data.social_media_main_topic,
-      field_power_words: data.social_media_power_words,
-      field_primary_keywords: data.social_media_primary_keywords,
-      field_seo_rules: data.social_media_seo_rules,
-      field_examples: data.social_media_examples,
-    });
-
-    const titleGroup = this.form?.controls
-      .title_group as FormGroup<ITemplateGroup>;
-    titleGroup.patchValue({
-      field_characters_limit: data.title_characters_limit,
-      field_main_topic: data.title_main_topic,
-      field_power_words: data.title_power_words,
-      field_primary_keywords: data.title_primary_keywords,
-      field_seo_rules: data.title_seo_rules,
-      field_examples: data.title_examples,
+      product_group: {
+        product_article_group: {
+          field_characters_limit: productArticleGroup.field_characters_limit,
+          field_main_topic: productArticleGroup.field_main_topic,
+          field_power_words: productArticleGroup.field_power_words,
+          field_primary_keywords: productArticleGroup.field_primary_keywords,
+          field_seo_rules: productArticleGroup.field_seo_rules,
+          field_examples: productArticleGroup.field_examples,
+        },
+        product_alt_text_group: {
+          field_characters_limit: productAltTextGroup.field_characters_limit,
+          field_main_topic: productAltTextGroup.field_main_topic,
+          field_power_words: productAltTextGroup.field_power_words,
+          field_primary_keywords: productAltTextGroup.field_primary_keywords,
+          field_seo_rules: productAltTextGroup.field_seo_rules,
+          field_examples: productAltTextGroup.field_examples,
+        },
+        product_description_group: {
+          field_characters_limit:
+            productDescriptionGroup.field_characters_limit,
+          field_main_topic: productDescriptionGroup.field_main_topic,
+          field_power_words: productDescriptionGroup.field_power_words,
+          field_primary_keywords:
+            productDescriptionGroup.field_primary_keywords,
+          field_seo_rules: productDescriptionGroup.field_seo_rules,
+          field_examples: productDescriptionGroup.field_examples,
+        },
+      },
     });
   }
 
@@ -357,127 +465,172 @@ export class CreateTemplateComponent {
       audience: new FormControl(null),
       define_purpose: new FormControl(null),
       tone_style: new FormControl(null),
-      alt_text_group: new FormGroup<ITemplateGroup>({
-        field_characters_limit: new FormControl(null),
-        field_main_topic: new FormControl(null),
-        field_power_words: new FormControl(null),
-        field_primary_keywords: new FormControl(null),
-        field_seo_rules: new FormControl(null),
-        field_examples: new FormControl(null),
+      general_group: new FormGroup<IGeneralFormGroup>({
+        general_article_group: new FormGroup<ITemplateGroup>({
+          field_characters_limit: new FormControl(null),
+          field_main_topic: new FormControl(null),
+          field_power_words: new FormControl(null),
+          field_primary_keywords: new FormControl(null),
+          field_seo_rules: new FormControl(null),
+          field_examples: new FormControl(null),
+        }),
+        general_description_group: new FormGroup<ITemplateGroup>({
+          field_characters_limit: new FormControl(null),
+          field_main_topic: new FormControl(null),
+          field_power_words: new FormControl(null),
+          field_primary_keywords: new FormControl(null),
+          field_seo_rules: new FormControl(null),
+          field_examples: new FormControl(null),
+        }),
+        general_alt_text_group: new FormGroup<ITemplateGroup>({
+          field_characters_limit: new FormControl(null),
+          field_main_topic: new FormControl(null),
+          field_power_words: new FormControl(null),
+          field_primary_keywords: new FormControl(null),
+          field_seo_rules: new FormControl(null),
+          field_examples: new FormControl(null),
+        }),
       }),
-      description_group: new FormGroup<ITemplateGroup>({
-        field_characters_limit: new FormControl(null),
-        field_main_topic: new FormControl(null),
-        field_power_words: new FormControl(null),
-        field_primary_keywords: new FormControl(null),
-        field_seo_rules: new FormControl(null),
-        field_examples: new FormControl(null),
+      product_group: new FormGroup<IProductFormGroup>({
+        product_article_group: new FormGroup<ITemplateGroup>({
+          field_characters_limit: new FormControl(null),
+          field_main_topic: new FormControl(null),
+          field_power_words: new FormControl(null),
+          field_primary_keywords: new FormControl(null),
+          field_seo_rules: new FormControl(null),
+          field_examples: new FormControl(null),
+        }),
+        product_description_group: new FormGroup<ITemplateGroup>({
+          field_characters_limit: new FormControl(null),
+          field_main_topic: new FormControl(null),
+          field_power_words: new FormControl(null),
+          field_primary_keywords: new FormControl(null),
+          field_seo_rules: new FormControl(null),
+          field_examples: new FormControl(null),
+        }),
+        product_alt_text_group: new FormGroup<ITemplateGroup>({
+          field_characters_limit: new FormControl(null),
+          field_main_topic: new FormControl(null),
+          field_power_words: new FormControl(null),
+          field_primary_keywords: new FormControl(null),
+          field_seo_rules: new FormControl(null),
+          field_examples: new FormControl(null),
+        }),
       }),
-      general_group: new FormGroup<ITemplateGroup>({
-        field_characters_limit: new FormControl(null),
-        field_main_topic: new FormControl(null),
-        field_power_words: new FormControl(null),
-        field_primary_keywords: new FormControl(null),
-        field_seo_rules: new FormControl(null),
-        field_examples: new FormControl(null),
-      }),
-      product_section_group: new FormGroup<ITemplateGroup>({
-        field_characters_limit: new FormControl(null),
-        field_main_topic: new FormControl(null),
-        field_power_words: new FormControl(null),
-        field_primary_keywords: new FormControl(null),
-        field_seo_rules: new FormControl(null),
-        field_examples: new FormControl(null),
-      }),
-      seo_group: new FormGroup<ITemplateGroup>({
-        field_characters_limit: new FormControl(null),
-        field_main_topic: new FormControl(null),
-        field_power_words: new FormControl(null),
-        field_primary_keywords: new FormControl(null),
-        field_seo_rules: new FormControl(null),
-        field_examples: new FormControl(null),
-      }),
-      social_media_group: new FormGroup<ITemplateGroup>({
-        field_characters_limit: new FormControl(null),
-        field_main_topic: new FormControl(null),
-        field_power_words: new FormControl(null),
-        field_primary_keywords: new FormControl(null),
-        field_seo_rules: new FormControl(null),
-        field_examples: new FormControl(null),
-      }),
-      title_group: new FormGroup<ITemplateGroup>({
-        field_characters_limit: new FormControl(null),
-        field_main_topic: new FormControl(null),
-        field_power_words: new FormControl(null),
-        field_primary_keywords: new FormControl(null),
-        field_seo_rules: new FormControl(null),
-        field_examples: new FormControl(null),
-      }),
-    });
 
-    this.form.valueChanges.subscribe(() => {
-      console.log(this.form?.value);
+      seo_group: new FormGroup<ISeoFormGroup>({
+        seo_title_group: new FormGroup<ITemplateGroup>({
+          field_characters_limit: new FormControl(null),
+          field_main_topic: new FormControl(null),
+          field_power_words: new FormControl(null),
+          field_primary_keywords: new FormControl(null),
+          field_seo_rules: new FormControl(null),
+          field_examples: new FormControl(null),
+        }),
+        seo_description_group: new FormGroup<ITemplateGroup>({
+          field_characters_limit: new FormControl(null),
+          field_main_topic: new FormControl(null),
+          field_power_words: new FormControl(null),
+          field_primary_keywords: new FormControl(null),
+          field_seo_rules: new FormControl(null),
+          field_examples: new FormControl(null),
+        }),
+        seo_keywords_group: new FormGroup<ITemplateGroup>({
+          field_characters_limit: new FormControl(null),
+          field_main_topic: new FormControl(null),
+          field_power_words: new FormControl(null),
+          field_primary_keywords: new FormControl(null),
+          field_seo_rules: new FormControl(null),
+          field_examples: new FormControl(null),
+        }),
+      }),
     });
   }
 
   private initValidation() {
     if (!this.form) return;
 
-    const titleGroup = this.form.controls.title_group.controls;
-    titleGroup.field_main_topic.setValidators(Validators.required);
-    titleGroup.field_primary_keywords.setValidators(Validators.required);
-    titleGroup.field_seo_rules.setValidators(Validators.required);
-    titleGroup.field_characters_limit.setValidators(Validators.required);
-    titleGroup.field_power_words.setValidators(Validators.required);
-    titleGroup.field_examples.setValidators(Validators.required);
-
-    const descriptionGroup = this.form.controls.description_group.controls;
-    descriptionGroup.field_main_topic.setValidators(Validators.required);
-    descriptionGroup.field_primary_keywords.setValidators(Validators.required);
-    descriptionGroup.field_seo_rules.setValidators(Validators.required);
-    descriptionGroup.field_characters_limit.setValidators(Validators.required);
-    descriptionGroup.field_power_words.setValidators(Validators.required);
-    descriptionGroup.field_examples.setValidators(Validators.required);
-
-    const altTextGroup = this.form.controls.alt_text_group.controls;
-    altTextGroup.field_main_topic.setValidators(Validators.required);
-    altTextGroup.field_primary_keywords.setValidators(Validators.required);
-    altTextGroup.field_seo_rules.setValidators(Validators.required);
-    altTextGroup.field_characters_limit.setValidators(Validators.required);
-    altTextGroup.field_power_words.setValidators(Validators.required);
-    altTextGroup.field_examples.setValidators(Validators.required);
-
     const generalGroup = this.form.controls.general_group.controls;
-    generalGroup.field_main_topic.setValidators(Validators.required);
-    generalGroup.field_primary_keywords.setValidators(Validators.required);
-    generalGroup.field_seo_rules.setValidators(Validators.required);
-    generalGroup.field_characters_limit.setValidators(Validators.required);
-    generalGroup.field_power_words.setValidators(Validators.required);
-    generalGroup.field_examples.setValidators(Validators.required);
+    const generalArticleGroup = generalGroup.general_article_group.controls;
+    const generalDescriptionGroup =
+      generalGroup.general_description_group.controls;
+    const generalAltTextGroup = generalGroup.general_alt_text_group.controls;
 
-    const productSection = this.form.controls.product_section_group.controls;
-    productSection.field_main_topic.setValidators(Validators.required);
-    productSection.field_primary_keywords.setValidators(Validators.required);
-    productSection.field_seo_rules.setValidators(Validators.required);
-    productSection.field_characters_limit.setValidators(Validators.required);
-    productSection.field_power_words.setValidators(Validators.required);
-    productSection.field_examples.setValidators(Validators.required);
-
-    const socialMediaGroup = this.form.controls.social_media_group.controls;
-    socialMediaGroup.field_main_topic.setValidators(Validators.required);
-    socialMediaGroup.field_primary_keywords.setValidators(Validators.required);
-    socialMediaGroup.field_seo_rules.setValidators(Validators.required);
-    socialMediaGroup.field_characters_limit.setValidators(Validators.required);
-    socialMediaGroup.field_power_words.setValidators(Validators.required);
-    socialMediaGroup.field_examples.setValidators(Validators.required);
+    const productGroup = this.form.controls.product_group.controls;
+    const productArticleGroup = productGroup.product_article_group.controls;
+    const productDescriptionGroup =
+      productGroup.product_description_group.controls;
+    const productAltTextGroup = productGroup.product_alt_text_group.controls;
 
     const seoGroup = this.form.controls.seo_group.controls;
-    seoGroup.field_main_topic.setValidators(Validators.required);
-    seoGroup.field_primary_keywords.setValidators(Validators.required);
-    seoGroup.field_seo_rules.setValidators(Validators.required);
-    seoGroup.field_characters_limit.setValidators(Validators.required);
-    seoGroup.field_power_words.setValidators(Validators.required);
-    seoGroup.field_examples.setValidators(Validators.required);
+    const seoMetaTitleGroup = seoGroup.seo_title_group.controls;
+    const seoMetaDescrGroup = seoGroup.seo_description_group.controls;
+    const seoMetaKeywordsGroup = seoGroup.seo_keywords_group.controls;
+
+    /* eslint-disable */
+    generalArticleGroup.field_main_topic.setValidators(Validators.required);
+    generalArticleGroup.field_primary_keywords.setValidators(Validators.required);
+    generalArticleGroup.field_seo_rules.setValidators(Validators.required);
+    generalArticleGroup.field_characters_limit.setValidators(Validators.required);
+    generalArticleGroup.field_power_words.setValidators(Validators.required);
+    generalArticleGroup.field_examples.setValidators(Validators.required);
+
+    generalDescriptionGroup.field_main_topic.setValidators(Validators.required);
+    generalDescriptionGroup.field_primary_keywords.setValidators(Validators.required);
+    generalDescriptionGroup.field_seo_rules.setValidators(Validators.required);
+    generalDescriptionGroup.field_characters_limit.setValidators(Validators.required);
+    generalDescriptionGroup.field_power_words.setValidators(Validators.required);
+    generalDescriptionGroup.field_examples.setValidators(Validators.required);
+
+    generalAltTextGroup.field_main_topic.setValidators(Validators.required);
+    generalAltTextGroup.field_primary_keywords.setValidators(Validators.required);
+    generalAltTextGroup.field_seo_rules.setValidators(Validators.required);
+    generalAltTextGroup.field_characters_limit.setValidators(Validators.required);
+    generalAltTextGroup.field_power_words.setValidators(Validators.required);
+    generalAltTextGroup.field_examples.setValidators(Validators.required);
+
+    productArticleGroup.field_main_topic.setValidators(Validators.required);
+    productArticleGroup.field_primary_keywords.setValidators(Validators.required);
+    productArticleGroup.field_seo_rules.setValidators(Validators.required);
+    productArticleGroup.field_characters_limit.setValidators(Validators.required);
+    productArticleGroup.field_power_words.setValidators(Validators.required);
+    productArticleGroup.field_examples.setValidators(Validators.required);
+
+    productDescriptionGroup.field_main_topic.setValidators(Validators.required);
+    productDescriptionGroup.field_primary_keywords.setValidators(Validators.required);
+    productDescriptionGroup.field_seo_rules.setValidators(Validators.required);
+    productDescriptionGroup.field_characters_limit.setValidators(Validators.required);
+    productDescriptionGroup.field_power_words.setValidators(Validators.required);
+    productDescriptionGroup.field_examples.setValidators(Validators.required);
+
+    productAltTextGroup.field_main_topic.setValidators(Validators.required);
+    productAltTextGroup.field_primary_keywords.setValidators(Validators.required);
+    productAltTextGroup.field_seo_rules.setValidators(Validators.required);
+    productAltTextGroup.field_characters_limit.setValidators(Validators.required);
+    productAltTextGroup.field_power_words.setValidators(Validators.required);
+    productAltTextGroup.field_examples.setValidators(Validators.required);
+
+    seoMetaTitleGroup.field_main_topic.setValidators(Validators.required);
+    seoMetaTitleGroup.field_primary_keywords.setValidators(Validators.required);
+    seoMetaTitleGroup.field_seo_rules.setValidators(Validators.required);
+    seoMetaTitleGroup.field_characters_limit.setValidators(Validators.required);
+    seoMetaTitleGroup.field_power_words.setValidators(Validators.required);
+    seoMetaTitleGroup.field_examples.setValidators(Validators.required);
+  
+    seoMetaDescrGroup.field_main_topic.setValidators(Validators.required);
+    seoMetaDescrGroup.field_primary_keywords.setValidators(Validators.required);
+    seoMetaDescrGroup.field_seo_rules.setValidators(Validators.required);
+    seoMetaDescrGroup.field_characters_limit.setValidators(Validators.required);
+    seoMetaDescrGroup.field_power_words.setValidators(Validators.required);
+    seoMetaDescrGroup.field_examples.setValidators(Validators.required);
+
+    seoMetaKeywordsGroup.field_main_topic.setValidators(Validators.required);
+    seoMetaKeywordsGroup.field_primary_keywords.setValidators(Validators.required);
+    seoMetaKeywordsGroup.field_seo_rules.setValidators(Validators.required);
+    seoMetaKeywordsGroup.field_characters_limit.setValidators(Validators.required);
+    seoMetaKeywordsGroup.field_power_words.setValidators(Validators.required);
+    seoMetaKeywordsGroup.field_examples.setValidators(Validators.required);
+    /* eslint-enable */
 
     this.form.updateValueAndValidity();
   }

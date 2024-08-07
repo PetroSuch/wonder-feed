@@ -29,103 +29,154 @@
 
   <div class="article-wrapper">
     <div class="article-content">
-      <div class="tabs">
+      <h4 class="mt-2">
+        {{ tabTitle }}
+      </h4>
+
+      <div class="tabs mb-3">
         <button
           (click)="openTab(1)"
           [ngClass]="{
-            active: activeTab === 1,
-            invalid: showErrors && !isValidTab(form.controls.title_group),
+            active: activeSubTab === 1,
+            invalid: showErrors && !isValidTab(null),
           }"
         >
-          Article Title
+          {{ activeTab === 4 ? "Meta Title" : "Article Title" }}
         </button>
         <button
           (click)="openTab(2)"
           [ngClass]="{
-            active: activeTab === 2,
-            invalid: showErrors && !isValidTab(form.controls.description_group),
+            active: activeSubTab === 2,
+            invalid: showErrors && !isValidTab(null),
           }"
         >
-          Description
+          {{ activeTab === 4 ? "Meta Description" : "Description" }}
         </button>
         <button
           (click)="openTab(3)"
           [ngClass]="{
-            active: activeTab === 3,
-            invalid: showErrors && !isValidTab(form.controls.alt_text_group),
+            active: activeSubTab === 3,
+            invalid: showErrors && !isValidTab(null),
           }"
         >
-          Alt Text
+          {{ activeTab === 4 ? "Meta Keywords" : "Alt Text" }}
         </button>
       </div>
 
-      <h4>
-        {{ tabTitle }}
-      </h4>
-
       <div class="article-prompts tabs-wrapper">
-        <div class="tab-item" [ngClass]="{ visible: activeTab === 1 }">
-          <ng-container
-            *ngTemplateOutlet="
-              groupForm;
-              context: { formGroup: form?.controls?.title_group }
-            "
-          ></ng-container>
-        </div>
+        @if (activeTab === 1) {
+          <div class="tab-item" [ngClass]="{ visible: activeSubTab === 1 }">
+            <ng-container
+              *ngTemplateOutlet="
+                groupForm;
+                context: {
+                  formGroup:
+                    form?.controls?.general_group?.controls
+                      ?.general_article_group,
+                }
+              "
+            ></ng-container>
+          </div>
+          <div class="tab-item" [ngClass]="{ visible: activeSubTab === 2 }">
+            <ng-container
+              *ngTemplateOutlet="
+                groupForm;
+                context: {
+                  formGroup:
+                    form?.controls?.general_group?.controls
+                      ?.general_description_group,
+                }
+              "
+            ></ng-container>
+          </div>
+          <div class="tab-item" [ngClass]="{ visible: activeSubTab === 3 }">
+            <ng-container
+              *ngTemplateOutlet="
+                groupForm;
+                context: {
+                  formGroup:
+                    form?.controls?.general_group?.controls
+                      ?.general_alt_text_group,
+                }
+              "
+            ></ng-container>
+          </div>
+        }
 
-        <div class="tab-item" [ngClass]="{ visible: activeTab === 2 }">
-          <ng-container
-            *ngTemplateOutlet="
-              groupForm;
-              context: { formGroup: form?.controls?.description_group }
-            "
-          ></ng-container>
-        </div>
+        @if (activeTab === 2) {
+          <div class="tab-item" [ngClass]="{ visible: activeSubTab === 1 }">
+            <ng-container
+              *ngTemplateOutlet="
+                groupForm;
+                context: {
+                  formGroup:
+                    form?.controls?.product_group?.controls
+                      ?.product_article_group,
+                }
+              "
+            ></ng-container>
+          </div>
+          <div class="tab-item" [ngClass]="{ visible: activeSubTab === 2 }">
+            <ng-container
+              *ngTemplateOutlet="
+                groupForm;
+                context: {
+                  formGroup:
+                    form?.controls?.product_group?.controls
+                      ?.product_description_group,
+                }
+              "
+            ></ng-container>
+          </div>
+          <div class="tab-item" [ngClass]="{ visible: activeSubTab === 3 }">
+            <ng-container
+              *ngTemplateOutlet="
+                groupForm;
+                context: {
+                  formGroup:
+                    form?.controls?.product_group?.controls
+                      ?.product_alt_text_group,
+                }
+              "
+            ></ng-container>
+          </div>
+        }
 
-        <div class="tab-item" [ngClass]="{ visible: activeTab === 3 }">
-          <ng-container
-            *ngTemplateOutlet="
-              groupForm;
-              context: { formGroup: form?.controls?.alt_text_group }
-            "
-          ></ng-container>
-        </div>
-
-        <div class="tab-item" [ngClass]="{ visible: activeTab === 4 }">
-          <ng-container
-            *ngTemplateOutlet="
-              groupForm;
-              context: { formGroup: form?.controls?.general_group }
-            "
-          ></ng-container>
-        </div>
-
-        <div class="tab-item" [ngClass]="{ visible: activeTab === 5 }">
-          <ng-container
-            *ngTemplateOutlet="
-              groupForm;
-              context: { formGroup: form?.controls?.product_section_group }
-            "
-          ></ng-container>
-        </div>
-
-        <div class="tab-item" [ngClass]="{ visible: activeTab === 6 }">
-          <ng-container
-            *ngTemplateOutlet="
-              groupForm;
-              context: { formGroup: form?.controls?.social_media_group }
-            "
-          ></ng-container>
-        </div>
-
-        <div class="tab-item" [ngClass]="{ visible: activeTab === 7 }">
-          <ng-container
-            *ngTemplateOutlet="
-              groupForm;
-              context: { formGroup: form?.controls?.seo_group }
-            "
-          ></ng-container>
-        </div>
+        @if (activeTab === 4) {
+          <div class="tab-item" [ngClass]="{ visible: activeSubTab === 1 }">
+            <ng-container
+              *ngTemplateOutlet="
+                groupForm;
+                context: {
+                  formGroup:
+                    form?.controls?.seo_group?.controls?.seo_title_group,
+                }
+              "
+            ></ng-container>
+          </div>
+          <div class="tab-item" [ngClass]="{ visible: activeSubTab === 2 }">
+            <ng-container
+              *ngTemplateOutlet="
+                groupForm;
+                context: {
+                  formGroup:
+                    form?.controls?.seo_group?.controls?.seo_description_group,
+                }
+              "
+            ></ng-container>
+          </div>
+          <div class="tab-item" [ngClass]="{ visible: activeSubTab === 3 }">
+            <ng-container
+              *ngTemplateOutlet="
+                groupForm;
+                context: {
+                  formGroup:
+                    form?.controls?.seo_group?.controls?.seo_keywords_group,
+                }
+              "
+            ></ng-container>
+          </div>
+        }
       </div>
     </div>
 

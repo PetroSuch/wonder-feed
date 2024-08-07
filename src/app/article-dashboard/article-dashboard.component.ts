@@ -40,6 +40,7 @@ export class ArticleDashboardComponent {
   ) {
     this.dashboardService.fetchTemplates();
     this.dashboardService.fetchCategories();
+    this.activeTab = +this.route.snapshot.queryParams["tab"] || 0;
 
     if (
       !this.activeTemplateId &&
