@@ -8,9 +8,27 @@ export interface ITemplate {
   audience: string | null;
   tone_style: string | null;
   additional_requirements: string | null;
-  general_group: IGeneralGroup;
-  product_group: IProductGroup;
-  seo_group: ISeoGroup;
+  general_alt_text_field_characters_limit: string | null;
+  general_alt_text_field_examples: string | null;
+  general_alt_text_field_main_topic: string | null;
+  general_alt_text_field_power_words: string | null;
+  general_alt_text_field_primary_keywords: string | null;
+  general_alt_text_field_seo_rules: string | null;
+  general_article_field_characters_limit: string | null;
+  general_article_field_examples: string | null;
+  general_article_field_main_topic: string | null;
+  general_article_field_power_words: string | null;
+  general_article_field_primary_keywords: string | null;
+  general_article_field_seo_rules: string | null;
+  general_description_field_characters_limit: string | null;
+  general_description_field_examples: string | null;
+  general_description_field_main_topic: string | null;
+  general_description_field_power_words: string | null;
+  general_description_field_primary_keywords: string | null;
+  general_description_field_seo_rules: string | null;
+  // general_group: IGeneralGroup;
+  // product_group: IProductGroup;
+  // seo_group: ISeoGroup;
 }
 
 export interface IGeneralGroup {
@@ -62,7 +80,6 @@ export interface IProductFormGroup {
   product_description_group: FormGroup<ITemplateGroup>;
   product_alt_text_group: FormGroup<ITemplateGroup>;
 }
-
 
 export interface ISeoFormGroup {
   seo_title_group: FormGroup<ITemplateGroup>;

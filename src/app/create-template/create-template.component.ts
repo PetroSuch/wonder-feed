@@ -81,7 +81,7 @@ export class CreateTemplateComponent {
   ) {
     this.initTemplateForm();
     this.initValidation();
-    this.testPatch();
+    // this.testPatch();
     this.activeSubTab = +this.route.snapshot.queryParams["subTab"] || 1;
 
     this.route.queryParams
@@ -211,11 +211,11 @@ export class CreateTemplateComponent {
   }
 
   public onSaveTemplate() {
-    if (!this.form || !this.form.valid) {
-      this.displayInvalidTabs();
-      this.showErrors = true;
-      return;
-    }
+    // if (!this.form || !this.form.valid) {
+    //   this.displayInvalidTabs();
+    //   this.showErrors = true;
+    //   return;
+    // }
 
     this.isSaving = true;
     let api$;
@@ -259,89 +259,120 @@ export class CreateTemplateComponent {
       audience: formValue.audience!,
       tone_style: formValue.tone_style!,
       additional_requirements: formValue.additional_requirements!,
-      general_group: {
-        general_article_group: {
-          field_characters_limit: generalArticleGroup!.field_characters_limit!,
-          field_main_topic: generalArticleGroup!.field_main_topic!,
-          field_power_words: generalArticleGroup!.field_power_words!,
-          field_primary_keywords: generalArticleGroup!.field_primary_keywords!,
-          field_seo_rules: generalArticleGroup!.field_seo_rules!,
-          field_examples: generalArticleGroup!.field_examples!,
-        },
-        general_alt_text_group: {
-          field_characters_limit: generalAltTextGroup!.field_characters_limit!,
-          field_main_topic: generalAltTextGroup!.field_main_topic!,
-          field_power_words: generalAltTextGroup!.field_power_words!,
-          field_primary_keywords: generalAltTextGroup!.field_primary_keywords!,
-          field_seo_rules: generalAltTextGroup!.field_seo_rules!,
-          field_examples: generalAltTextGroup!.field_examples!,
-        },
-        general_description_group: {
-          field_characters_limit:
-            generalDescriptionGroup!.field_characters_limit!,
-          field_main_topic: generalDescriptionGroup!.field_main_topic!,
-          field_power_words: generalDescriptionGroup!.field_power_words!,
-          field_primary_keywords:
-            generalDescriptionGroup!.field_primary_keywords!,
-          field_seo_rules: generalDescriptionGroup!.field_seo_rules!,
-          field_examples: generalDescriptionGroup!.field_examples!,
-        },
-      },
+      general_alt_text_field_characters_limit:
+        generalAltTextGroup!.field_characters_limit!,
+      general_alt_text_field_examples: generalAltTextGroup!.field_examples!,
+      general_alt_text_field_main_topic: generalAltTextGroup!.field_main_topic!,
+      general_alt_text_field_power_words:
+        generalAltTextGroup!.field_power_words!,
+      general_alt_text_field_primary_keywords:
+        generalAltTextGroup!.field_primary_keywords!,
+      general_alt_text_field_seo_rules: generalAltTextGroup!.field_seo_rules!,
+      general_article_field_characters_limit:
+        generalArticleGroup!.field_characters_limit!,
+      general_article_field_examples: generalArticleGroup!.field_examples!,
+      general_article_field_main_topic: generalArticleGroup!.field_main_topic!,
+      general_article_field_power_words:
+        generalArticleGroup!.field_power_words!,
+      general_article_field_primary_keywords:
+        generalArticleGroup!.field_primary_keywords!,
+      general_article_field_seo_rules: generalArticleGroup!.field_seo_rules!,
+      general_description_field_characters_limit:
+        generalDescriptionGroup!.field_characters_limit!,
+      general_description_field_examples:
+        generalDescriptionGroup!.field_examples!,
+      general_description_field_main_topic:
+        generalDescriptionGroup!.field_main_topic!,
+      general_description_field_power_words:
+        generalDescriptionGroup!.field_power_words!,
+      general_description_field_primary_keywords:
+        generalDescriptionGroup!.field_primary_keywords!,
+      general_description_field_seo_rules:
+        generalDescriptionGroup!.field_seo_rules!,
 
-      product_group: {
-        product_article_group: {
-          field_characters_limit: productArticleGroup!.field_characters_limit!,
-          field_main_topic: productArticleGroup!.field_main_topic!,
-          field_power_words: productArticleGroup!.field_power_words!,
-          field_primary_keywords: productArticleGroup!.field_primary_keywords!,
-          field_seo_rules: productArticleGroup!.field_seo_rules!,
-          field_examples: productArticleGroup!.field_examples!,
-        },
-        product_alt_text_group: {
-          field_characters_limit: productAltTextGroup!.field_characters_limit!,
-          field_main_topic: productAltTextGroup!.field_main_topic!,
-          field_power_words: productAltTextGroup!.field_power_words!,
-          field_primary_keywords: productAltTextGroup!.field_primary_keywords!,
-          field_seo_rules: productAltTextGroup!.field_seo_rules!,
-          field_examples: productAltTextGroup!.field_examples!,
-        },
-        product_description_group: {
-          field_characters_limit:
-            productDescriptionGroup!.field_characters_limit!,
-          field_main_topic: productDescriptionGroup!.field_main_topic!,
-          field_power_words: productDescriptionGroup!.field_power_words!,
-          field_primary_keywords:
-            productDescriptionGroup!.field_primary_keywords!,
-          field_seo_rules: productDescriptionGroup!.field_seo_rules!,
-          field_examples: productDescriptionGroup!.field_examples!,
-        },
-      },
-      seo_group: {
-        seo_title_group: {
-          field_characters_limit: seoMetaTitleGroup!.field_characters_limit!,
-          field_main_topic: seoMetaTitleGroup!.field_main_topic!,
-          field_power_words: seoMetaTitleGroup!.field_power_words!,
-          field_primary_keywords: seoMetaTitleGroup!.field_primary_keywords!,
-          field_seo_rules: seoMetaTitleGroup!.field_seo_rules!,
-          field_examples: seoMetaTitleGroup!.field_examples!,
-        },
-        seo_description_group: {
-          field_characters_limit: seoMetaDescrGroup!.field_characters_limit!,
-          field_main_topic: seoMetaDescrGroup!.field_main_topic!,
-          field_power_words: seoMetaDescrGroup!.field_power_words!,
-          field_primary_keywords: seoMetaDescrGroup!.field_primary_keywords!,
-          field_seo_rules: seoMetaDescrGroup!.field_seo_rules!,
-          field_examples: seoMetaDescrGroup!.field_examples!,
-        },
-        seo_keywords_group: {
-          field_characters_limit: seoMetaKeywordsGroup!.field_characters_limit!,
-          field_main_topic: seoMetaKeywordsGroup!.field_main_topic!,
-          field_power_words: seoMetaKeywordsGroup!.field_power_words!,
-          field_primary_keywords: seoMetaKeywordsGroup!.field_primary_keywords!,
-          field_seo_rules: seoMetaKeywordsGroup!.field_seo_rules!,
-          field_examples: seoMetaKeywordsGroup!.field_examples!,
-        },
-      },
+      //   general_group: {
+      //     general_article_group: {
+      //       field_characters_limit: generalArticleGroup!.field_characters_limit!,
+      //       field_main_topic: generalArticleGroup!.field_main_topic!,
+      //       field_power_words: generalArticleGroup!.field_power_words!,
+      //       field_primary_keywords: generalArticleGroup!.field_primary_keywords!,
+      //       field_seo_rules: generalArticleGroup!.field_seo_rules!,
+      //       field_examples: generalArticleGroup!.field_examples!,
+      //     },
+      //     general_alt_text_group: {
+      //       field_characters_limit: generalAltTextGroup!.field_characters_limit!,
+      //       field_main_topic: generalAltTextGroup!.field_main_topic!,
+      //       field_power_words: generalAltTextGroup!.field_power_words!,
+      //       field_primary_keywords: generalAltTextGroup!.field_primary_keywords!,
+      //       field_seo_rules: generalAltTextGroup!.field_seo_rules!,
+      //       field_examples: generalAltTextGroup!.field_examples!,
+      //     },
+      //     general_description_group: {
+      //       field_characters_limit:
+      //         generalDescriptionGroup!.field_characters_limit!,
+      //       field_main_topic: generalDescriptionGroup!.field_main_topic!,
+      //       field_power_words: generalDescriptionGroup!.field_power_words!,
+      //       field_primary_keywords:
+      //         generalDescriptionGroup!.field_primary_keywords!,
+      //       field_seo_rules: generalDescriptionGroup!.field_seo_rules!,
+      //       field_examples: generalDescriptionGroup!.field_examples!,
+      //     },
+      //   },
+
+      //   product_group: {
+      //     product_article_group: {
+      //       field_characters_limit: productArticleGroup!.field_characters_limit!,
+      //       field_main_topic: productArticleGroup!.field_main_topic!,
+      //       field_power_words: productArticleGroup!.field_power_words!,
+      //       field_primary_keywords: productArticleGroup!.field_primary_keywords!,
+      //       field_seo_rules: productArticleGroup!.field_seo_rules!,
+      //       field_examples: productArticleGroup!.field_examples!,
+      //     },
+      //     product_alt_text_group: {
+      //       field_characters_limit: productAltTextGroup!.field_characters_limit!,
+      //       field_main_topic: productAltTextGroup!.field_main_topic!,
+      //       field_power_words: productAltTextGroup!.field_power_words!,
+      //       field_primary_keywords: productAltTextGroup!.field_primary_keywords!,
+      //       field_seo_rules: productAltTextGroup!.field_seo_rules!,
+      //       field_examples: productAltTextGroup!.field_examples!,
+      //     },
+      //     product_description_group: {
+      //       field_characters_limit:
+      //         productDescriptionGroup!.field_characters_limit!,
+      //       field_main_topic: productDescriptionGroup!.field_main_topic!,
+      //       field_power_words: productDescriptionGroup!.field_power_words!,
+      //       field_primary_keywords:
+      //         productDescriptionGroup!.field_primary_keywords!,
+      //       field_seo_rules: productDescriptionGroup!.field_seo_rules!,
+      //       field_examples: productDescriptionGroup!.field_examples!,
+      //     },
+      //   },
+      //   seo_group: {
+      //     seo_title_group: {
+      //       field_characters_limit: seoMetaTitleGroup!.field_characters_limit!,
+      //       field_main_topic: seoMetaTitleGroup!.field_main_topic!,
+      //       field_power_words: seoMetaTitleGroup!.field_power_words!,
+      //       field_primary_keywords: seoMetaTitleGroup!.field_primary_keywords!,
+      //       field_seo_rules: seoMetaTitleGroup!.field_seo_rules!,
+      //       field_examples: seoMetaTitleGroup!.field_examples!,
+      //     },
+      //     seo_description_group: {
+      //       field_characters_limit: seoMetaDescrGroup!.field_characters_limit!,
+      //       field_main_topic: seoMetaDescrGroup!.field_main_topic!,
+      //       field_power_words: seoMetaDescrGroup!.field_power_words!,
+      //       field_primary_keywords: seoMetaDescrGroup!.field_primary_keywords!,
+      //       field_seo_rules: seoMetaDescrGroup!.field_seo_rules!,
+      //       field_examples: seoMetaDescrGroup!.field_examples!,
+      //     },
+      //     seo_keywords_group: {
+      //       field_characters_limit: seoMetaKeywordsGroup!.field_characters_limit!,
+      //       field_main_topic: seoMetaKeywordsGroup!.field_main_topic!,
+      //       field_power_words: seoMetaKeywordsGroup!.field_power_words!,
+      //       field_primary_keywords: seoMetaKeywordsGroup!.field_primary_keywords!,
+      //       field_seo_rules: seoMetaKeywordsGroup!.field_seo_rules!,
+      //       field_examples: seoMetaKeywordsGroup!.field_examples!,
+      //     },
+      //   },
     };
   }
 
@@ -384,76 +415,39 @@ export class CreateTemplateComponent {
 
   private patchForm(data: ITemplate) {
     console.log(data);
-    this.form?.patchValue(data);
-    const { general_group, product_group, seo_group } = data;
-    const generalArticleGroup = general_group.general_article_group;
-    const generalDescriptionGroup = general_group.general_description_group;
-    const generalAltTextGroup = general_group.general_alt_text_group;
-    const productArticleGroup = product_group.product_article_group;
-    const productDescriptionGroup = product_group.product_description_group;
-    const productAltTextGroup = product_group.product_alt_text_group;
-    const seoMetaTitleGroup = seo_group.seo_title_group;
-    const seoMetaDescrGroup = seo_group.seo_description_group;
-    const seoMetaKeywordsGroup = seo_group.seo_keywords_group;
+    if (!this.form) return;
+    this.form.patchValue(data);
+    const {
+      general_article_group,
+      general_alt_text_group,
+      general_description_group,
+    } = this.form.controls.general_group.controls;
 
-    this.form?.patchValue({
-      general_group: {
-        general_article_group: {
-          field_characters_limit: generalArticleGroup.field_characters_limit,
-          field_main_topic: generalArticleGroup.field_main_topic,
-          field_power_words: generalArticleGroup.field_power_words,
-          field_primary_keywords: generalArticleGroup.field_primary_keywords,
-          field_seo_rules: generalArticleGroup.field_seo_rules,
-          field_examples: generalArticleGroup.field_examples,
-        },
-        general_alt_text_group: {
-          field_characters_limit: generalAltTextGroup.field_characters_limit,
-          field_main_topic: generalAltTextGroup.field_main_topic,
-          field_power_words: generalAltTextGroup.field_power_words,
-          field_primary_keywords: generalAltTextGroup.field_primary_keywords,
-          field_seo_rules: generalAltTextGroup.field_seo_rules,
-          field_examples: generalAltTextGroup.field_examples,
-        },
-        general_description_group: {
-          field_characters_limit:
-            generalDescriptionGroup.field_characters_limit,
-          field_main_topic: generalDescriptionGroup.field_main_topic,
-          field_power_words: generalDescriptionGroup.field_power_words,
-          field_primary_keywords:
-            generalDescriptionGroup.field_primary_keywords,
-          field_seo_rules: generalDescriptionGroup.field_seo_rules,
-          field_examples: generalDescriptionGroup.field_examples,
-        },
-      },
+    general_article_group.patchValue({
+      field_characters_limit: data.general_article_field_characters_limit,
+      field_main_topic: data.general_article_field_main_topic,
+      field_power_words: data.general_article_field_power_words,
+      field_primary_keywords: data.general_article_field_primary_keywords,
+      field_seo_rules: data.general_article_field_seo_rules,
+      field_examples: data.general_article_field_examples,
+    });
 
-      product_group: {
-        product_article_group: {
-          field_characters_limit: productArticleGroup.field_characters_limit,
-          field_main_topic: productArticleGroup.field_main_topic,
-          field_power_words: productArticleGroup.field_power_words,
-          field_primary_keywords: productArticleGroup.field_primary_keywords,
-          field_seo_rules: productArticleGroup.field_seo_rules,
-          field_examples: productArticleGroup.field_examples,
-        },
-        product_alt_text_group: {
-          field_characters_limit: productAltTextGroup.field_characters_limit,
-          field_main_topic: productAltTextGroup.field_main_topic,
-          field_power_words: productAltTextGroup.field_power_words,
-          field_primary_keywords: productAltTextGroup.field_primary_keywords,
-          field_seo_rules: productAltTextGroup.field_seo_rules,
-          field_examples: productAltTextGroup.field_examples,
-        },
-        product_description_group: {
-          field_characters_limit:
-            productDescriptionGroup.field_characters_limit,
-          field_main_topic: productDescriptionGroup.field_main_topic,
-          field_power_words: productDescriptionGroup.field_power_words,
-          field_primary_keywords:
-            productDescriptionGroup.field_primary_keywords,
-          field_seo_rules: productDescriptionGroup.field_seo_rules,
-          field_examples: productDescriptionGroup.field_examples,
-        },
-      },
+    general_alt_text_group.patchValue({
+      field_characters_limit: data.general_alt_text_field_characters_limit,
+      field_main_topic: data.general_alt_text_field_main_topic,
+      field_power_words: data.general_alt_text_field_power_words,
+      field_primary_keywords: data.general_alt_text_field_primary_keywords,
+      field_seo_rules: data.general_alt_text_field_seo_rules,
+      field_examples: data.general_alt_text_field_examples,
+    });
+
+    general_description_group.patchValue({
+      field_characters_limit: data.general_description_field_characters_limit,
+      field_main_topic: data.general_description_field_main_topic,
+      field_power_words: data.general_description_field_power_words,
+      field_primary_keywords: data.general_description_field_primary_keywords,
+      field_seo_rules: data.general_description_field_seo_rules,
+      field_examples: data.general_description_field_examples,
     });
   }
 
