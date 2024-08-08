@@ -80,7 +80,7 @@ export class CreateTemplateComponent {
     private dashboardService: DashboardService,
   ) {
     this.initTemplateForm();
-    this.initValidation();
+    // this.initValidation();
     // this.testPatch();
     this.activeSubTab = +this.route.snapshot.queryParams["subTab"] || 1;
 
