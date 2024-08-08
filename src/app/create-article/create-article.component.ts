@@ -15,6 +15,7 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
+  ValidatorFn,
   Validators,
 } from "@angular/forms";
 import {
@@ -300,7 +301,7 @@ export class CreateArticleComponent {
   }
 
   private initForm() {
-    const validators = [Validators.required];
+    const validators = [] as unknown as ValidatorFn; //[Validators.required];
     this.form = new FormGroup<IGenerateArticleForm>({
       category_id: new FormControl<null | number>(null),
       template_id: new FormControl<null | number>(null),
@@ -375,13 +376,13 @@ export class CreateArticleComponent {
   }
 
   private initValidation() {
-    if (!this.form) return;
-    const { article, template_id, category_id, product_titles } =
-      this.form.controls;
+    // if (!this.form) return;
+    // const { article, template_id, category_id, product_titles } =
+    //   this.form.controls;
 
-    [article, template_id, category_id, product_titles].forEach((control) => {
-      control.setValidators([Validators.required]);
-    });
+    // [article, template_id, category_id, product_titles].forEach((control) => {
+    //   control.setValidators([Validators.required]);
+    // });
   }
 
   drop(event: CdkDragDrop<any[]>) {
