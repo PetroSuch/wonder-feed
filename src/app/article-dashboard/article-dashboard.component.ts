@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { Component, DestroyRef, inject } from "@angular/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { CategoryService } from "../shared/services/category.service";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
@@ -10,6 +10,7 @@ import { ITemplate } from "../shared/interfaces/template.interface";
 import { RoutesNames } from "../shared/enums/routes.enum";
 import { CommonModule } from "@angular/common";
 import { DashboardService } from "../shared/services/dashboard.service";
+import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 
 @Component({
   selector: "app-article-dashboard",
@@ -21,6 +22,7 @@ import { DashboardService } from "../shared/services/dashboard.service";
 export class ArticleDashboardComponent {
   public activeTab: number = 0;
   public addNewTemplate: boolean = false;
+  private readonly destroyRef = inject(DestroyRef);
 
   public get activeTemplateId(): number {
     return +this.route.snapshot.firstChild?.params["templateId"];
@@ -42,6 +44,14 @@ export class ArticleDashboardComponent {
     this.dashboardService.fetchCategories();
     this.activeTab = +this.route.snapshot.queryParams["tab"] || 0;
 
+    this.route.queryParams
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((params) => {
+        if (params["tab"]) {
+          this.activeTab = +params["tab"];
+        }
+      });
+
     if (
       !this.activeTemplateId &&
       location.pathname.includes(RoutesNames.Template)
@@ -57,6 +67,7 @@ export class ArticleDashboardComponent {
 
   public onCreateArticle() {
     this.addNewTemplate = false;
+    this.activeTab = 0;
     void this.router.navigate(["/", RoutesNames.Articles, RoutesNames.Create]);
   }
 
@@ -109,12 +120,11 @@ export class ArticleDashboardComponent {
   public updateTemplate(e: Event, template: ITemplate) {
     e.stopPropagation();
     this.addNewTemplate = false;
-    void this.router.navigate([
-      "/",
-      RoutesNames.Articles,
-      RoutesNames.Template,
-      template.id,
-    ]);
+    this.activeTab = 1;
+    void this.router.navigate(
+      ["/", RoutesNames.Articles, RoutesNames.Template, template.id],
+      { queryParams: { tab: 1 } },
+    );
   }
 
   public deleteTemplate(e: Event, template: ITemplate) {
@@ -130,10 +140,9 @@ export class ArticleDashboardComponent {
 
   public createTemplate() {
     this.addNewTemplate = true;
-    void this.router.navigate([
-      "/",
-      RoutesNames.Articles,
-      RoutesNames.Template,
-    ]);
+    void this.router.navigate(
+      ["/", RoutesNames.Articles, RoutesNames.Template],
+      { queryParams: { tab: 1 } },
+    );
   }
 }

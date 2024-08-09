@@ -65,8 +65,8 @@ export interface INewTemplateForm {
   tone_style: FormControl<null | string>;
   additional_requirements: FormControl<null | string>;
   general_group: FormGroup<IGeneralFormGroup>;
-  product_group: FormGroup<IProductFormGroup>;
-  seo_group: FormGroup<ISeoFormGroup>;
+  // product_group: FormGroup<IProductFormGroup>;
+  // seo_group: FormGroup<ISeoFormGroup>;
 }
 
 export interface IGeneralFormGroup {
