@@ -26,9 +26,42 @@ export interface ITemplate {
   general_description_field_power_words: string | null;
   general_description_field_primary_keywords: string | null;
   general_description_field_seo_rules: string | null;
-  // general_group: IGeneralGroup;
-  // product_group: IProductGroup;
-  // seo_group: ISeoGroup;
+  product_alt_text_field_characters_limit: string | null;
+  product_alt_text_field_examples: string | null;
+  product_alt_text_field_main_topic: string | null;
+  product_alt_text_field_power_words: string | null;
+  product_alt_text_field_primary_keywords: string | null;
+  product_alt_text_field_seo_rules: string | null;
+  product_article_field_characters_limit: string | null;
+  product_article_field_examples: string | null;
+  product_article_field_main_topic: string | null;
+  product_article_field_power_words: string | null;
+  product_article_field_primary_keywords: string | null;
+  product_article_field_seo_rules: string | null;
+  product_description_field_characters_limit: string | null;
+  product_description_field_examples: string | null;
+  product_description_field_main_topic: string | null;
+  product_description_field_power_words: string | null;
+  product_description_field_primary_keywords: string | null;
+  product_description_field_seo_rules: string | null;
+  seo_keywords_field_characters_limit: string | null;
+  seo_keywords_field_examples: string | null;
+  seo_keywords_field_main_topic: string | null;
+  seo_keywords_field_power_words: string | null;
+  seo_keywords_field_primary_keywords: string | null;
+  seo_keywords_field_seo_rules: string | null;
+  seo_title_field_characters_limit: string | null;
+  seo_title_field_examples: string | null;
+  seo_title_field_main_topic: string | null;
+  seo_title_field_power_words: string | null;
+  seo_title_field_primary_keywords: string | null;
+  seo_title_field_seo_rules: string | null;
+  seo_description_field_characters_limit: string | null;
+  seo_description_field_examples: string | null;
+  seo_description_field_main_topic: string | null;
+  seo_description_field_power_words: string | null;
+  seo_description_field_primary_keywords: string | null;
+  seo_description_field_seo_rules: string | null;
 }
 
 export interface IGeneralGroup {
@@ -65,8 +98,8 @@ export interface INewTemplateForm {
   tone_style: FormControl<null | string>;
   additional_requirements: FormControl<null | string>;
   general_group: FormGroup<IGeneralFormGroup>;
-  // product_group: FormGroup<IProductFormGroup>;
-  // seo_group: FormGroup<ISeoFormGroup>;
+  product_group: FormGroup<IProductFormGroup>;
+  seo_group: FormGroup<ISeoFormGroup>;
 }
 
 export interface IGeneralFormGroup {
