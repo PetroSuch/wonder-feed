@@ -464,7 +464,6 @@ export class CreateTemplateComponent {
       field_seo_rules: data.seo_title_field_seo_rules,
       field_examples: data.seo_title_field_examples,
     });
-    
 
     seo_description_group.patchValue({
       field_characters_limit: data.seo_description_field_characters_limit,

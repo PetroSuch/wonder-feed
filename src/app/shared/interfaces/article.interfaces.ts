@@ -85,6 +85,7 @@ export interface IGenerateArticleResponse {
     };
   };
   products_list: IGenerateProduct[];
+  seo: IGenerateSEO;
 }
 
 export interface IGenerateGeneral {
